@@ -1,0 +1,11 @@
+<main id='root'></main>
+
+<% if current_user %>
+  <script type="text/javascript">
+    window.currentUser = <%= render('users/user.json.jbuilder', user: current_user).html_safe %>;
+  </script>
+<% end %>
+
+<script type="text/javascript">
+  window.defaultAvatar = " <%= asset_path 'default_avatar.png' %>";
+</script>
