@@ -1,24 +1,9 @@
-# README
+# CityWeather
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A simple React and Rails app for showing weather conditions in US cities. 
+Weather information is retrieved from openweathermap.org(openweathermap.org "Open Weather Map")
 
-Things you may want to cover:
+## Features
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Sign up/Login of user
+* Add/Delete Cities for specific user
