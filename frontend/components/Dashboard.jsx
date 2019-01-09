@@ -3,20 +3,10 @@ import City from './City.jsx';
 import { withRouter } from 'react-router-dom';
 
 class Dashboard extends Component {
-  constructor() {
-    super();
-    this.defaultCities =  [
-      'New York',
-      'Dallas',
-      'San Francisco',
-      'Chicago',
-      'Seattle'
-    ];
-    this.state = {};
-  }
 
   render() {
-    const cities = this.cities || this.defaultCities;
+    const cities = this.props.cities;
+    
     return (
       <div className='dashboard' >
         {cities.map( (city, idx) => 
@@ -25,6 +15,7 @@ class Dashboard extends Component {
             key={idx} 
             addWeather={this.props.addWeather} 
             dashboard={true}
+            storedWeather={this.props.storedWeather[city]}
           />)}
       </div>
     )

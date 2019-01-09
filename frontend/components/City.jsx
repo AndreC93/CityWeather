@@ -30,11 +30,13 @@ class City extends Component {
   }
 
   componentDidMount() {
-    fetchWeather(this.cityName).then( data => this.handleSuccess(data), errors => errors );
+    if(!this.storedWeather) {
+      fetchWeather(this.cityName).then( data => this.handleSuccess(data), errors => errors );
+    }
   }
   
   handleSuccess(data) {
-    this.setState({
+    const newState = {
       clouds: data.clouds.all || 0,
       lon: data.coord.lon,
       lat: data.coord.lat,
@@ -45,17 +47,17 @@ class City extends Component {
       tempMax: data.main.temp_max,
       rain: data.rain ? data.rain['1h'] : 0,
       country: data.sys.country,
-      weatherDesc: data.weather[0].description, 
+      weatherDesc: data.weather[0].description,
       weatherMain: data.weather[0].main,
-    });
-    const attrs = Object.entries(this.state);
-    this.props.addWeather(this.props.name, attrs);
+    }
+    this.setState(newState);
+    const attrs = Object.entries(newState);
+    this.props.addWeather(this.cityName, attrs);
   }
   
   render() {
-    if(this.state.temp) {
+    if(this.state.country) {
       const attrs = Object.entries(this.state);
-
       if(this.props.dashboard) {
         return <DashboardItem name={this.cityName} attrs={attrs} />;
       } else {

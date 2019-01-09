@@ -162,6 +162,7 @@ function (_Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
+    _this.defaultCities = ['New York', 'Dallas', 'San Francisco', 'Chicago', 'Seattle'];
     _this.state = {};
     _this.addWeather = _this.addWeather.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -170,26 +171,36 @@ function (_Component) {
   _createClass(App, [{
     key: "addWeather",
     value: function addWeather(city, attrs) {
-      this.setState(_defineProperty({}, city, attrs));
+      var size = Object.keys(this.state).length;
+      this.setState(_defineProperty({}, city, attrs.concat(size)));
     }
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
 
+      var cities = this.defaultCities;
+
+      if (Object.keys(this.state).length) {
+        cities = Object.keys(this.state);
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         exact: true,
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
-            addWeather: _this2.addWeather
+            cities: cities,
+            addWeather: _this2.addWeather,
+            storedWeather: _this2.state
           }));
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_City_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
-            addWeather: _this2.addWeather
+            addWeather: _this2.addWeather,
+            storedWeather: _this2.state
           }));
         }
       })));
@@ -282,16 +293,18 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_3__["fetchWeather"])(this.cityName).then(function (data) {
-        return _this2.handleSuccess(data);
-      }, function (errors) {
-        return errors;
-      });
+      if (!this.storedWeather) {
+        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_3__["fetchWeather"])(this.cityName).then(function (data) {
+          return _this2.handleSuccess(data);
+        }, function (errors) {
+          return errors;
+        });
+      }
     }
   }, {
     key: "handleSuccess",
     value: function handleSuccess(data) {
-      this.setState({
+      var newState = {
         clouds: data.clouds.all || 0,
         lon: data.coord.lon,
         lat: data.coord.lat,
@@ -304,14 +317,15 @@ function (_Component) {
         country: data.sys.country,
         weatherDesc: data.weather[0].description,
         weatherMain: data.weather[0].main
-      });
-      var attrs = Object.entries(this.state);
-      this.props.addWeather(this.props.name, attrs);
+      };
+      this.setState(newState);
+      var attrs = Object.entries(newState);
+      this.props.addWeather(this.cityName, attrs);
     }
   }, {
     key: "render",
     value: function render() {
-      if (this.state.temp) {
+      if (this.state.country) {
         var attrs = Object.entries(this.state);
 
         if (this.props.dashboard) {
@@ -459,30 +473,26 @@ function (_Component) {
   _inherits(Dashboard, _Component);
 
   function Dashboard() {
-    var _this;
-
     _classCallCheck(this, Dashboard);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Dashboard).call(this));
-    _this.defaultCities = ['New York', 'Dallas', 'San Francisco', 'Chicago', 'Seattle'];
-    _this.state = {};
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(Dashboard).apply(this, arguments));
   }
 
   _createClass(Dashboard, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
-      var cities = this.cities || this.defaultCities;
+      var cities = this.props.cities;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dashboard"
       }, cities.map(function (city, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_City_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
           name: city,
           key: idx,
-          addWeather: _this2.props.addWeather,
-          dashboard: true
+          addWeather: _this.props.addWeather,
+          dashboard: true,
+          storedWeather: _this.props.storedWeather[city]
         });
       }));
     }
