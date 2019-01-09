@@ -316,12 +316,12 @@ function (_Component) {
 
         if (this.props.dashboard) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DashboardItem_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            name: this.props.name,
+            name: this.cityName,
             attrs: attrs
           });
         } else {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityItem_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            name: this.props.name,
+            name: this.cityName,
             attrs: attrs
           });
         }
@@ -382,11 +382,24 @@ function (_Component) {
   }
 
   _createClass(CityItem, [{
+    key: "formatName",
+    value: function formatName(name) {
+      this.name = name.split('+').map(function (word) {
+        return word[0].toUpperCase() + word.slice(1);
+      }).join(' ');
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.formatName(this.props.name);
+    }
+  }, {
     key: "render",
     value: function render() {
+      if (!this.props.name) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cityItem"
-      }, this.props.name, this.props.attrs.map(function (attr, idx) {
+      }, this.name, this.props.attrs.map(function (attr, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           key: idx
         }, attr[0], ": ", attr[1]);

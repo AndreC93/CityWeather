@@ -55,11 +55,11 @@ class City extends Component {
   render() {
     if(this.state.temp) {
       const attrs = Object.entries(this.state);
-      
+
       if(this.props.dashboard) {
-        return <DashboardItem name={this.props.name} attrs={attrs} />;
+        return <DashboardItem name={this.cityName} attrs={attrs} />;
       } else {
-        return <CityItem name={this.props.name} attrs={attrs} />;
+        return <CityItem name={this.cityName} attrs={attrs} />;
       }
 
     } else {
