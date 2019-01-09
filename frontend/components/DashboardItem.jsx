@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class DashboardItem extends Component {
   
@@ -16,7 +17,9 @@ export default class DashboardItem extends Component {
 
     return (
       <div className='dashboardItem' >
-        {this.props.name}
+        <Link to={`/${this.props.name}`}>
+          {this.props.name}
+        </Link>
         {this.attrs.map((attr, idx) => <p key={idx} >{attr[0]}: {attr[1]}</p>)}
       </div>
     )

@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class CityItem extends Component {
   formatName(name) {
@@ -14,7 +15,10 @@ export default class CityItem extends Component {
 
     return (
       <div className='cityItem' >
-        {this.name}
+        <Link to={'/'} >Back to Dashboard</Link>
+        <h2>
+          {this.name}
+        </h2>
         {this.props.attrs.map( (attr, idx) => <p key={idx} >{attr[0]}: {attr[1]}</p>)}
       </div>
     )

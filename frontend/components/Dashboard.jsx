@@ -18,8 +18,7 @@ class Dashboard extends Component {
   render() {
     const cities = this.cities || this.defaultCities;
     return (
-      <div className='cities' >
-        <div />
+      <div className='dashboard' >
         {cities.map( (city, idx) => 
           <City 
             name={city} 
