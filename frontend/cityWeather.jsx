@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/root';
-// import configureStore from './store/store';
-// import * as SessionApiUtil from './util/session_api_util';
+import configureStore from './store/store';
+import * as SessionApiUtil from './util/session_api_util';
 
 function checkCurrentUser() {
   if (window.currentUser) {
@@ -23,8 +23,7 @@ function checkCurrentUser() {
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
-  // const preloadedState = checkCurrentUser();
-  // const store = configureStore(preloadedState);
-  const store = {};
+  const preloadedState = checkCurrentUser();
+  const store = configureStore(preloadedState);
   ReactDOM.render(<Root store={store} />, root);
 });

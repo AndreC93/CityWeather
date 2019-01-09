@@ -19,7 +19,7 @@ class User < ApplicationRecord
 
   attr_reader :password
 
-  has_many :cities, foreign_key: :user_id, class_name: 'City', dependent: :destroy
+  has_many :cities, foreign_key: :creator_id, class_name: 'City', dependent: :destroy
 
   def password=(password)
     @password = password

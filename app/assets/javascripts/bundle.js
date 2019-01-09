@@ -100,12 +100,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+!(function webpackMissingModule() { var e = new Error("Cannot find module './store/store'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+!(function webpackMissingModule() { var e = new Error("Cannot find module './util/session_api_util'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
- // import configureStore from './store/store';
-// import * as SessionApiUtil from './util/session_api_util';
+
+
+
 
 function checkCurrentUser() {
   if (window.currentUser) {
@@ -123,10 +126,9 @@ function checkCurrentUser() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  var root = document.getElementById('root'); // const preloadedState = checkCurrentUser();
-  // const store = configureStore(preloadedState);
-
-  var store = {};
+  var root = document.getElementById('root');
+  var preloadedState = checkCurrentUser();
+  var store = !(function webpackMissingModule() { var e = new Error("Cannot find module './store/store'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(preloadedState);
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store
   }), root);
