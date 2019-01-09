@@ -1,24 +1,38 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
+import Dashboard from './Dashboard.jsx';
 import City from './City.jsx';
 
-export default class App extends Component {
-  constructor() {
-    super();
-    this.defaultCities =  [
-      'New York',
-      'Dallas',
-      'San Francisco',
-      'Oklahoma City',
-      'Seattle'
-    ];
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.addWeather = this.addWeather.bind(this);
+  }
+
+  addWeather(city, attrs) {
+    this.setState({
+      [city]: attrs,
+    });
   }
 
   render() {
-    const cities = this.cities || this.defaultCities;
     return (
-      <div className='cities' >
-        {cities.map( (city, idx) => <City name={city} key={idx} />)}
+      <div>
+        <Switch>
+          <Route 
+            exact path='/' 
+            render={ props => <Dashboard {...props} addWeather={this.addWeather} />}
+          />
+          <Route 
+            path='/' 
+            render={ props => <City {...props} addWeather={this.addWeather} />} 
+          />
+        </Switch>
       </div>
-    )
+    );
   }
+
 }
+
+export default App;

@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import CityItem from './CityItem.jsx'
+import { withRouter } from 'react-router-dom';
+import { fetchWeather } from '../util/weather_util.js';
+import DashboardItem from './DashboardItem.jsx';
 
-export default class City extends Component {
-  constructor() {
-    super();
+class City extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      name: '',
       clouds: 0,
       lon: 0,
       lat: 0,
@@ -18,21 +21,20 @@ export default class City extends Component {
       weatherDesc: '',
       weatherMain: '',
     };
+
+    if(this.props.name === undefined) {
+      this.cityName = this.props.history.location.pathname.slice(1);
+    } else {
+      this.cityName = this.props.name;
+    }
   }
 
   componentDidMount() {
-    this.fetchWeather();
+    fetchWeather(this.cityName).then( data => this.handleSuccess(data), errors => errors );
   }
-
-  fetchWeather() {
-    $.ajax({
-      url: `https://api.openweathermap.org/data/2.5/weather?q=${this.props.name}&APPID=c0a9b33f3889ab4f0926ba26ed8c9638`,
-    }).then( data => this.handleSuccess(data), error => console.log(error) );
-  }
-
+  
   handleSuccess(data) {
     this.setState({
-      name: data.name,
       clouds: data.clouds.all || 0,
       lon: data.coord.lon,
       lat: data.coord.lat,
@@ -46,19 +48,24 @@ export default class City extends Component {
       weatherDesc: data.weather[0].description, 
       weatherMain: data.weather[0].main,
     });
+    const attrs = Object.entries(this.state);
+    this.props.addWeather(this.props.name, attrs);
   }
-
+  
   render() {
-    if(this.state.name) {
-      const attrs = Object.entries(this.state).filter( ([k, v]) => k !== 'name' );
-      return (
-        <div className='city' >
-          {this.props.name}
-          {attrs.map( attr => <p>{attr[0]}: {attr[1]}</p> )}
-        </div>
-      );
+    if(this.state.temp) {
+      const attrs = Object.entries(this.state);
+      
+      if(this.props.dashboard) {
+        return <DashboardItem name={this.props.name} attrs={attrs} />;
+      } else {
+        return <CityItem name={this.props.name} attrs={attrs} />;
+      }
+
     } else {
       return null;
     }
   }
 }
+
+export default withRouter(City);

@@ -1,8 +1,11 @@
 import React from 'react';
 import App from './App';
+import { HashRouter } from "react-router-dom";
 
 const Root = () => (
-  <App />
+  <HashRouter>
+    <App />
+  </HashRouter>
 );
 
 export default Root; 
