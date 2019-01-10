@@ -1,3 +1,5 @@
+require 'net/http'
+
 class CitiesController < ApplicationController
   def create
     complete_city_params = city_params
@@ -21,12 +23,12 @@ class CitiesController < ApplicationController
   end
 
   def show
-    name = params[:name]
-    RestClient.get("https://api.openweathermap.org/data/2.5/weather?q=#{name}&APPID=c0a9b33f3889ab4f0926ba26ed8c9638")
-    @city = City.find_by(id: params[:userId])
+    name = params[:id]
+    url = URI("https://api.openweathermap.org/data/2.5/weather?q=#{name}&APPID=c0a9b33f3889ab4f0926ba26ed8c9638")
+    res = Net::HTTP.get_response(url)
+    @city = res.body
     if @city
-      @cities = @user.cities
-      render :show
+      render json: @city
     else
       render json: 'No City Found', status: 404
     end
