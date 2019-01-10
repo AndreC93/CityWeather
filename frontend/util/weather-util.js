@@ -1,12 +1,12 @@
+
 export const fetchWeather = (name) => {
   return fetch(
-    `https://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=c0a9b33f3889ab4f0926ba26ed8c9638`,
-    {
+    `/cities/${name}`, {
       credientials: 'include'
     })
-      .then(res => res.json());
-};
-
+    .then(res => res.json());
+  }
+  
 export const parseData = (data) => {
   return {
     clouds: data.clouds.all || 0,
@@ -21,3 +21,22 @@ export const parseData = (data) => {
     weatherMain: data.weather[0].main,
   }
 };
+
+export const getImageSrc = (weatherMain) => {
+  let src = '';
+  switch (weatherMain) {
+    case '':
+      break;
+  }
+
+  return src;
+}
+
+// export const fetchFrontend = (name) => {
+//   return fetch(
+//     `https://api.openweathermap.org/data/2.5/weather?q=${name}&APPID=c0a9b33f3889ab4f0926ba26ed8c9638`,
+//     {
+//       credientials: 'include'
+//     })
+//       .then(res => res.json());
+// };

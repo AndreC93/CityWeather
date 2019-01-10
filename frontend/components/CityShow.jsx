@@ -37,10 +37,12 @@ class CityShow extends Component {
     if (oldState) {
       this.setState(oldState);
     } else {
-      fetchWeather(this.cityName).then(data => this.handleSuccess(data), errors => errors);
+      fetchWeather(this.cityName)
+        .then(data => this.handleSuccess(data))
+        .catch( errors => errors );
     }
 
-    this.interval = setInterval(() => fetchWeather(this.cityName).then(data => this.handleSuccess(data), errors => errors), 5000);
+    this.interval = setInterval(() => fetchWeather(this.cityName).then(data => this.handleSuccess(data), errors => errors), 10000);
   }
 
   componentWillUnmount() {

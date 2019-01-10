@@ -19,7 +19,7 @@ class App extends Component {
   
   componentDidMount() {
     this.fetchWeatherForCities();
-    this.interval = setInterval( () => this.fetchWeatherForCities(), 5000);
+    this.interval = setInterval( () => this.fetchWeatherForCities(), 10000);
   }
 
   fetchWeatherForCities() {

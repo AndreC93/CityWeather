@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Card, Icon, Image } from 'semantic-ui-react';
 
 export default class DashboardItem extends Component {
   constructor(props) {
@@ -28,6 +29,7 @@ export default class DashboardItem extends Component {
 
     return (
       <div className='dashboardItem' >
+        <image src=''/>
         <Link to={`/${this.props.name}`}>
           {this.props.name}
         </Link>
@@ -36,4 +38,3 @@ export default class DashboardItem extends Component {
     );
   }
 }
-
