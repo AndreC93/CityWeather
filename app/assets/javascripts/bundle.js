@@ -208,7 +208,9 @@ function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "App"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         exact: true,
         path: "/",
         render: function render(props) {
@@ -270,17 +272,17 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var CityItem =
+var CityShow =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(CityItem, _Component);
+  _inherits(CityShow, _Component);
 
-  function CityItem(props) {
+  function CityShow(props) {
     var _this;
 
-    _classCallCheck(this, CityItem);
+    _classCallCheck(this, CityShow);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CityItem).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CityShow).call(this, props));
     _this.state = {
       clouds: 0,
       temp: 0,
@@ -297,7 +299,7 @@ function (_Component) {
     return _this;
   }
 
-  _createClass(CityItem, [{
+  _createClass(CityShow, [{
     key: "checkName",
     value: function checkName() {
       if (this.props.name === undefined || this.props.name === "undefined") {
@@ -355,7 +357,7 @@ function (_Component) {
       if (!this.state.country) return null;
       var attrs = Object.entries(this.state);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "cityItem"
+        className: "cityShow"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: '/'
       }, "Back to Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.cityName), attrs.map(function (attr, idx) {
@@ -366,10 +368,10 @@ function (_Component) {
     }
   }]);
 
-  return CityItem;
+  return CityShow;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(CityItem));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(CityShow));
 
 /***/ }),
 

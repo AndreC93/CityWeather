@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { fetchWeather, parseData } from "../util/weather-util.js";
 
-class CityItem extends Component {
+class CityShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +57,7 @@ class CityItem extends Component {
 
     const attrs = Object.entries(this.state);
     return (
-      <div className='cityItem' >
+      <div className='cityShow' >
         <Link to={'/'} >Back to Dashboard</Link>
         <h2>
           {this.cityName}
@@ -68,4 +68,4 @@ class CityItem extends Component {
   }
 }
 
-export default withRouter(CityItem);
+export default withRouter(CityShow);
