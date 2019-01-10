@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from './Dashboard.jsx';
-import City from './City.jsx';
+import CityShow from './CityShow.jsx';
+import { fetchWeather, parseData } from "../util/weather-util.js";
 
 class App extends Component {
   constructor(props) {
@@ -14,33 +15,41 @@ class App extends Component {
       'Seattle'
     ];
     this.state = {};
-    this.addWeather = this.addWeather.bind(this);
+  }
+  
+  componentDidMount() {
+    this.fetchWeatherForCities();
+    this.interval = setInterval( () => this.fetchWeatherForCities(), 5000);
   }
 
-  addWeather(city, attrs) {
-    const size = Object.keys(this.state).length;
-    this.setState({
-      [city]: attrs.concat(size),
-    });
+  fetchWeatherForCities() {
+    this.defaultCities.forEach(city => {
+      fetchWeather(city)
+        .then(data => this.handleSuccess(data, city))
+        .catch(err => err);
+    })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  handleSuccess(data, city) {
+    const newState = parseData(data);
+    this.setState({ [city]: newState });
   }
 
   render() {
-    let cities = this.defaultCities;
-    
-    if(Object.keys(this.state).length) {
-      cities = Object.keys(this.state);
-    }
-    
     return (
       <div>
         <Switch>
           <Route 
             exact path='/' 
-            render={ props => <Dashboard {...props} cities={cities} addWeather={this.addWeather} storedWeather={this.state} />}
+            render={props => <Dashboard {...props} cities={this.defaultCities} storedWeather={this.state} />}
           />
           <Route 
             path='/' 
-            render={ props => <City {...props} addWeather={this.addWeather} storedWeather={this.state} />} 
+            render={ props => <CityShow {...props} storedWeather={this.state} />} 
           />
         </Switch>
       </div>

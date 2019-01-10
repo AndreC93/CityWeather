@@ -2,27 +2,38 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 export default class DashboardItem extends Component {
-  
-  componentDidMount() {
-    this.attrs = this.filterAttrs(this.props.attrs);
+  constructor(props) {
+    super(props);
+    this.state = {
+      temp: 0,
+      tempMax: 0,
+      tempMin: 0,
+      weatherMain: '',
+    };
   }
 
-  filterAttrs(attrs) {
+  componentDidMount() {
+    this.setState(this.filterState(this.props.storedWeather));
+  }
+
+  filterState(newState) {
     const attrsToKeep = ['temp', 'tempMax', 'tempMin', 'weatherMain'];
-    return attrs.filter( ([attr, val]) => attrsToKeep.includes(attr) );
+    const filteredState = {};
+    attrsToKeep.forEach( attr => filteredState[attr] = newState[attr] );
+    return filteredState;
   }
 
   render() {
-    if(!this.attrs) return null;
+    const attrs = Object.entries(this.state);
 
     return (
       <div className='dashboardItem' >
         <Link to={`/${this.props.name}`}>
           {this.props.name}
         </Link>
-        {this.attrs.map((attr, idx) => <p key={idx} >{attr[0]}: {attr[1]}</p>)}
+        {attrs.map((attr, idx) => <p key={idx} >{attr[0]}: {attr[1]}</p>)}
       </div>
-    )
+    );
   }
 }
 

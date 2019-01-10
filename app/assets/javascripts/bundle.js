@@ -123,7 +123,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 /* harmony import */ var _Dashboard_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Dashboard.jsx */ "./frontend/components/Dashboard.jsx");
-/* harmony import */ var _City_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./City.jsx */ "./frontend/components/City.jsx");
+/* harmony import */ var _CityShow_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CityShow.jsx */ "./frontend/components/CityShow.jsx");
+/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -138,13 +139,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
 
@@ -164,43 +166,62 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.defaultCities = ['New York', 'Dallas', 'San Francisco', 'Chicago', 'Seattle'];
     _this.state = {};
-    _this.addWeather = _this.addWeather.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(App, [{
-    key: "addWeather",
-    value: function addWeather(city, attrs) {
-      var size = Object.keys(this.state).length;
-      this.setState(_defineProperty({}, city, attrs.concat(size)));
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.fetchWeatherForCities();
+      this.interval = setInterval(function () {
+        return _this2.fetchWeatherForCities();
+      }, 5000);
+    }
+  }, {
+    key: "fetchWeatherForCities",
+    value: function fetchWeatherForCities() {
+      var _this3 = this;
+
+      this.defaultCities.forEach(function (city) {
+        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_4__["fetchWeather"])(city).then(function (data) {
+          return _this3.handleSuccess(data, city);
+        }).catch(function (err) {
+          return err;
+        });
+      });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
+    key: "handleSuccess",
+    value: function handleSuccess(data, city) {
+      var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_4__["parseData"])(data);
+      this.setState(_defineProperty({}, city, newState));
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      var cities = this.defaultCities;
-
-      if (Object.keys(this.state).length) {
-        cities = Object.keys(this.state);
-      }
+      var _this4 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         exact: true,
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
-            cities: cities,
-            addWeather: _this2.addWeather,
-            storedWeather: _this2.state
+            cities: _this4.defaultCities,
+            storedWeather: _this4.state
           }));
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         render: function render(props) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_City_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
-            addWeather: _this2.addWeather,
-            storedWeather: _this2.state
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityShow_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
+            storedWeather: _this4.state
           }));
         }
       })));
@@ -214,10 +235,10 @@ function (_Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/City.jsx":
-/*!**************************************!*\
-  !*** ./frontend/components/City.jsx ***!
-  \**************************************/
+/***/ "./frontend/components/CityShow.jsx":
+/*!******************************************!*\
+  !*** ./frontend/components/CityShow.jsx ***!
+  \******************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -225,10 +246,8 @@ function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _CityItem_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CityItem.jsx */ "./frontend/components/CityItem.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/weather_util.js */ "./frontend/util/weather_util.js");
-/* harmony import */ var _DashboardItem_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DashboardItem.jsx */ "./frontend/components/DashboardItem.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -251,23 +270,19 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-
-
-var City =
+var CityItem =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(City, _Component);
+  _inherits(CityItem, _Component);
 
-  function City(props) {
+  function CityItem(props) {
     var _this;
 
-    _classCallCheck(this, City);
+    _classCallCheck(this, CityItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(City).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CityItem).call(this, props));
     _this.state = {
       clouds: 0,
-      lon: 0,
-      lat: 0,
       temp: 0,
       pressure: 0,
       humidity: 0,
@@ -278,146 +293,72 @@ function (_Component) {
       weatherDesc: '',
       weatherMain: ''
     };
-
-    if (_this.props.name === undefined) {
-      _this.cityName = _this.props.history.location.pathname.slice(1);
-    } else {
-      _this.cityName = _this.props.name;
-    }
-
+    _this.cityName = _this.checkName();
     return _this;
   }
 
-  _createClass(City, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      if (!this.storedWeather) {
-        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_3__["fetchWeather"])(this.cityName).then(function (data) {
-          return _this2.handleSuccess(data);
-        }, function (errors) {
-          return errors;
-        });
-      }
-    }
-  }, {
-    key: "handleSuccess",
-    value: function handleSuccess(data) {
-      var newState = {
-        clouds: data.clouds.all || 0,
-        lon: data.coord.lon,
-        lat: data.coord.lat,
-        temp: data.main.temp,
-        pressure: data.main.pressure,
-        humidity: data.main.humidity,
-        tempMin: data.main.temp_min,
-        tempMax: data.main.temp_max,
-        rain: data.rain ? data.rain['1h'] : 0,
-        country: data.sys.country,
-        weatherDesc: data.weather[0].description,
-        weatherMain: data.weather[0].main
-      };
-      this.setState(newState);
-      var attrs = Object.entries(newState);
-      this.props.addWeather(this.cityName, attrs);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      if (this.state.country) {
-        var attrs = Object.entries(this.state);
-
-        if (this.props.dashboard) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DashboardItem_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-            name: this.cityName,
-            attrs: attrs
-          });
-        } else {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityItem_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-            name: this.cityName,
-            attrs: attrs
-          });
-        }
-      } else {
-        return null;
-      }
-    }
-  }]);
-
-  return City;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(City));
-
-/***/ }),
-
-/***/ "./frontend/components/CityItem.jsx":
-/*!******************************************!*\
-  !*** ./frontend/components/CityItem.jsx ***!
-  \******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return CityItem; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-
-var CityItem =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(CityItem, _Component);
-
-  function CityItem() {
-    _classCallCheck(this, CityItem);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(CityItem).apply(this, arguments));
-  }
-
   _createClass(CityItem, [{
+    key: "checkName",
+    value: function checkName() {
+      if (this.props.name === undefined || this.props.name === "undefined") {
+        return this.formatName(this.props.history.location.pathname.slice(1));
+      } else {
+        return this.props.name;
+      }
+    }
+  }, {
     key: "formatName",
     value: function formatName(name) {
-      this.name = name.split('+').map(function (word) {
+      return name.split('+').map(function (word) {
         return word[0].toUpperCase() + word.slice(1);
       }).join(' ');
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.formatName(this.props.name);
+      var _this2 = this;
+
+      var oldState = this.props.storedWeather[this.cityName];
+
+      if (oldState) {
+        this.setState(oldState);
+      } else {
+        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(this.cityName).then(function (data) {
+          return _this2.handleSuccess(data);
+        }, function (errors) {
+          return errors;
+        });
+      }
+
+      this.interval = setInterval(function () {
+        return Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(_this2.cityName).then(function (data) {
+          return _this2.handleSuccess(data);
+        }, function (errors) {
+          return errors;
+        });
+      }, 5000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
+    key: "handleSuccess",
+    value: function handleSuccess(data) {
+      var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["parseData"])(data);
+      this.setState(newState);
     }
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.name) return null;
+      if (!this.state.country) return null;
+      var attrs = Object.entries(this.state);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cityItem"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: '/'
-      }, "Back to Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.name), this.props.attrs.map(function (attr, idx) {
+      }, "Back to Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.cityName), attrs.map(function (attr, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           key: idx
         }, attr[0], ": ", attr[1]);
@@ -428,7 +369,7 @@ function (_Component) {
   return CityItem;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(CityItem));
 
 /***/ }),
 
@@ -441,10 +382,10 @@ function (_Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Dashboard; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _City_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./City.jsx */ "./frontend/components/City.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _DashboardItem_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DashboardItem.jsx */ "./frontend/components/DashboardItem.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -462,7 +403,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -487,13 +427,13 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dashboard"
       }, cities.map(function (city, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_City_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          name: city,
-          key: idx,
-          addWeather: _this.props.addWeather,
-          dashboard: true,
-          storedWeather: _this.props.storedWeather[city]
-        });
+        if (_this.props.storedWeather[city]) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DashboardItem_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            name: city,
+            key: idx,
+            storedWeather: _this.props.storedWeather[city]
+          });
+        }
       }));
     }
   }]);
@@ -501,7 +441,8 @@ function (_Component) {
   return Dashboard;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Dashboard));
+
+;
 
 /***/ }),
 
@@ -519,14 +460,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -552,38 +485,45 @@ var DashboardItem =
 function (_Component) {
   _inherits(DashboardItem, _Component);
 
-  function DashboardItem() {
+  function DashboardItem(props) {
+    var _this;
+
     _classCallCheck(this, DashboardItem);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(DashboardItem).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(DashboardItem).call(this, props));
+    _this.state = {
+      temp: 0,
+      tempMax: 0,
+      tempMin: 0,
+      weatherMain: ''
+    };
+    return _this;
   }
 
   _createClass(DashboardItem, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.attrs = this.filterAttrs(this.props.attrs);
+      this.setState(this.filterState(this.props.storedWeather));
     }
   }, {
-    key: "filterAttrs",
-    value: function filterAttrs(attrs) {
+    key: "filterState",
+    value: function filterState(newState) {
       var attrsToKeep = ['temp', 'tempMax', 'tempMin', 'weatherMain'];
-      return attrs.filter(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
-            attr = _ref2[0],
-            val = _ref2[1];
-
-        return attrsToKeep.includes(attr);
+      var filteredState = {};
+      attrsToKeep.forEach(function (attr) {
+        return filteredState[attr] = newState[attr];
       });
+      return filteredState;
     }
   }, {
     key: "render",
     value: function render() {
-      if (!this.attrs) return null;
+      var attrs = Object.entries(this.state);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dashboardItem"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/".concat(this.props.name)
-      }, this.props.name), this.attrs.map(function (attr, idx) {
+      }, this.props.name), attrs.map(function (attr, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
           key: idx
         }, attr[0], ": ", attr[1]);
@@ -623,20 +563,37 @@ var Root = function Root() {
 
 /***/ }),
 
-/***/ "./frontend/util/weather_util.js":
+/***/ "./frontend/util/weather-util.js":
 /*!***************************************!*\
-  !*** ./frontend/util/weather_util.js ***!
+  !*** ./frontend/util/weather-util.js ***!
   \***************************************/
-/*! exports provided: fetchWeather */
+/*! exports provided: fetchWeather, parseData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchWeather", function() { return fetchWeather; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseData", function() { return parseData; });
 var fetchWeather = function fetchWeather(name) {
-  return $.ajax({
-    url: "https://api.openweathermap.org/data/2.5/weather?q=".concat(name, "&APPID=c0a9b33f3889ab4f0926ba26ed8c9638")
+  return fetch("https://api.openweathermap.org/data/2.5/weather?q=".concat(name, "&APPID=c0a9b33f3889ab4f0926ba26ed8c9638"), {
+    credientials: 'include'
+  }).then(function (res) {
+    return res.json();
   });
+};
+var parseData = function parseData(data) {
+  return {
+    clouds: data.clouds.all || 0,
+    temp: data.main.temp,
+    pressure: data.main.pressure,
+    humidity: data.main.humidity,
+    tempMin: data.main.temp_min,
+    tempMax: data.main.temp_max,
+    rain: data.rain ? data.rain['1h'] : 0,
+    country: data.sys.country,
+    weatherDesc: data.weather[0].description,
+    weatherMain: data.weather[0].main
+  };
 };
 
 /***/ }),
