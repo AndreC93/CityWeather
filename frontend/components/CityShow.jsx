@@ -17,11 +17,12 @@ class CityShow extends Component {
       weatherDesc: '',
       weatherMain: '',
     };
-    this.cityName = this.checkName();
+    this.cityName = '';
+    this.interval = null;
   }
 
   checkName() {
-    if (this.props.name === undefined || this.props.name === 'undefined') {
+    if (this.props.name === undefined || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
       return this.formatName(this.props.history.location.pathname.slice(1));
     } else {
       return this.props.name;
@@ -29,24 +30,40 @@ class CityShow extends Component {
   }
   
   formatName(name) {
-    return name.split('+').map( word => word[0].toUpperCase() + word.slice(1) ).join(' ');
+    return name.split('+').map( word => this.capitalize(word) ).join(' ');
   }
 
   componentDidMount() {
+    this.cityName = this.checkName();
     const oldState = this.props.storedWeather[this.cityName];
     if (oldState) {
       this.setState(oldState);
     } else {
-      fetchWeather(this.cityName)
-        .then(data => this.handleSuccess(data))
-        .catch( errors => errors );
+      this.getWeather(this.cityName);
     }
 
-    this.interval = setInterval(() => fetchWeather(this.cityName).then(data => this.handleSuccess(data), errors => errors), 10000);
+    this.interval = setInterval(() => this.getWeather(this.cityName), 10000);
+  }
+  
+  componentWillUpdate() {
+    const addressName = this.props.history.location.pathname;
+    if (addressName !== '/' && this.cityName.toLowerCase() !== addressName.slice(1).toLowerCase()) {
+      clearInterval(this.interval);
+      this.cityName = this.formatName(addressName.slice(1));
+      this.getWeather(this.cityName);
+
+      this.interval = setInterval(() => this.getWeather(this.cityName), 10000);
+    }
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+  getWeather(city) {
+    fetchWeather(city)
+      .then(data => this.handleSuccess(data))
+      .catch(errors => errors);
   }
 
   handleSuccess(data) {
@@ -62,14 +79,14 @@ class CityShow extends Component {
     if(!this.state.country) return null;
     const imgSrc = getImgSrc(this.state.weatherMain);
     const { weatherDesc, temp, tempMin, tempMax, rain, humidity } = this.state;
-    const attrs = Object.entries(this.state);
+
     return (
       <div className='cityShow' >
         <Link to={'/'}>Back to Dashboard</Link>
         <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />
-            {this.cityName}
+            {this.capitalize(this.cityName)}
           </h2>
           <div className='weatherDesc' >{this.capitalize(weatherDesc)}</div>
           <div className="tempContainer">

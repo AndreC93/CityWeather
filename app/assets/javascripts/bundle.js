@@ -298,14 +298,15 @@ function (_Component) {
       weatherDesc: '',
       weatherMain: ''
     };
-    _this.cityName = _this.checkName();
+    _this.cityName = '';
+    _this.interval = null;
     return _this;
   }
 
   _createClass(CityShow, [{
     key: "checkName",
     value: function checkName() {
-      if (this.props.name === undefined || this.props.name === 'undefined') {
+      if (this.props.name === undefined || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
         return this.formatName(this.props.history.location.pathname.slice(1));
       } else {
         return this.props.name;
@@ -314,39 +315,61 @@ function (_Component) {
   }, {
     key: "formatName",
     value: function formatName(name) {
+      var _this2 = this;
+
       return name.split('+').map(function (word) {
-        return word[0].toUpperCase() + word.slice(1);
+        return _this2.capitalize(word);
       }).join(' ');
     }
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this2 = this;
+      var _this3 = this;
 
+      this.cityName = this.checkName();
       var oldState = this.props.storedWeather[this.cityName];
 
       if (oldState) {
         this.setState(oldState);
       } else {
-        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(this.cityName).then(function (data) {
-          return _this2.handleSuccess(data);
-        }).catch(function (errors) {
-          return errors;
-        });
+        this.getWeather(this.cityName);
       }
 
       this.interval = setInterval(function () {
-        return Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(_this2.cityName).then(function (data) {
-          return _this2.handleSuccess(data);
-        }, function (errors) {
-          return errors;
-        });
+        return _this3.getWeather(_this3.cityName);
       }, 10000);
+    }
+  }, {
+    key: "componentWillUpdate",
+    value: function componentWillUpdate() {
+      var _this4 = this;
+
+      var addressName = this.props.history.location.pathname;
+
+      if (addressName !== '/' && this.cityName.toLowerCase() !== addressName.slice(1).toLowerCase()) {
+        clearInterval(this.interval);
+        this.cityName = this.formatName(addressName.slice(1));
+        this.getWeather(this.cityName);
+        this.interval = setInterval(function () {
+          return _this4.getWeather(_this4.cityName);
+        }, 10000);
+      }
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       clearInterval(this.interval);
+    }
+  }, {
+    key: "getWeather",
+    value: function getWeather(city) {
+      var _this5 = this;
+
+      Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(city).then(function (data) {
+        return _this5.handleSuccess(data);
+      }).catch(function (errors) {
+        return errors;
+      });
     }
   }, {
     key: "handleSuccess",
@@ -371,7 +394,6 @@ function (_Component) {
           tempMax = _this$state.tempMax,
           rain = _this$state.rain,
           humidity = _this$state.humidity;
-      var attrs = Object.entries(this.state);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cityShow"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -381,7 +403,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
         src: imgSrc
-      }), this.cityName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.capitalize(this.cityName)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "weatherDesc"
       }, this.capitalize(weatherDesc)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tempContainer"
