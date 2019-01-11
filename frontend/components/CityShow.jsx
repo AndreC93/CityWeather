@@ -54,22 +54,34 @@ class CityShow extends Component {
     this.setState(newState);
   }
 
+  capitalize(str) {
+    return str[0].toUpperCase() + str.slice(1);
+  }
+
   render() {
     if(!this.state.country) return null;
     const imgSrc = getImgSrc(this.state.weatherMain);
-
+    const { weatherDesc, temp, tempMin, tempMax, rain, humidity } = this.state;
     const attrs = Object.entries(this.state);
     return (
-      <div>
+      <div className='cityShow' >
         <Link to={'/'}>Back to Dashboard</Link>
-        <div className='cityShow city'>
+        <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />
             {this.cityName}
           </h2>
-          {attrs.map((attr, idx) => <p key={idx}>
-              {attr[0]}: {attr[1]}
-            </p>)}
+          <div className='weatherDesc' >{this.capitalize(weatherDesc)}</div>
+          <div className="tempContainer">
+            <div className="temp">{temp}°F</div>
+            <div className='lowHigh'>
+              {tempMin}°F - {tempMax}°F
+          </div>
+          </div>
+          <div className='additionalDesc'>
+            <div>Rain/hr: {rain}mm</div>
+            <div>Humidity: {humidity}%</div>
+          </div>
         </div>
       </div>
       );

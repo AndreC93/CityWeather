@@ -355,23 +355,43 @@ function (_Component) {
       this.setState(newState);
     }
   }, {
+    key: "capitalize",
+    value: function capitalize(str) {
+      return str[0].toUpperCase() + str.slice(1);
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.state.country) return null;
       var imgSrc = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["getImgSrc"])(this.state.weatherMain);
+      var _this$state = this.state,
+          weatherDesc = _this$state.weatherDesc,
+          temp = _this$state.temp,
+          tempMin = _this$state.tempMin,
+          tempMax = _this$state.tempMax,
+          rain = _this$state.rain,
+          humidity = _this$state.humidity;
       var attrs = Object.entries(this.state);
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "cityShow"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: '/'
       }, "Back to Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "cityShow city"
+        className: "city"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
         src: imgSrc
-      }), this.cityName), attrs.map(function (attr, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          key: idx
-        }, attr[0], ": ", attr[1]);
-      })));
+      }), this.cityName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "weatherDesc"
+      }, this.capitalize(weatherDesc)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tempContainer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "temp"
+      }, temp, "\xB0F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "lowHigh"
+      }, tempMin, "\xB0F - ", tempMax, "\xB0F")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "additionalDesc"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Rain/hr: ", rain, "mm"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Humidity: ", humidity, "%"))));
     }
   }]);
 
@@ -545,10 +565,12 @@ function (_Component) {
         className: "weatherImg",
         src: imgSrc
       }), this.props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dashItemDesc"
+        className: "tempContainer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "temp"
-      }, temp, "\xB0F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Low ", tempMin, "\xB0F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High ", tempMax, "\xB0F")));
+      }, temp, "\xB0F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "lowHigh"
+      }, tempMin, "\xB0F - ", tempMax, "\xB0F")));
     }
   }]);
 
