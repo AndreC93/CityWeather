@@ -1,6 +1,4 @@
 .dashboard {
-    // display: flex;
-    // justify-content: center;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -12,5 +10,11 @@
 .dashboardItem {
   margin: 10px;
   width: 100%;
+  min-width: 200px;
   hyphens: auto;
+  transition: all 0.3s ease-in;
+
+  &:hover {
+    transform: scale(1.02, 1.02);
+  }
 }

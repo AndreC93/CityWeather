@@ -27,14 +27,18 @@ export default class DashboardItem extends Component {
   render() {
     const attrs = Object.entries(this.state);
     const imgSrc = getImgSrc(this.state.weatherMain);
+    const { temp, tempMax, tempMin, weatherMain } = this.state;
 
-    return(
-      <Link className="dashboardItem city"  to={`/${this.props.name}`}>
+    return <Link className="dashboardItem city" to={`/${this.props.name}`}>
         <h2>
           <img className="weatherImg" src={imgSrc} />
           {this.props.name}
         </h2>
-        {attrs.map((attr, idx) => <p key={idx}>{attr[0]}: {attr[1]}</p>)}
-      </Link>);
+        <div className="dashItemDesc">
+          <div className="temp">{temp}°F</div>
+          <div>Low {tempMin}°F</div>
+          <div>High {tempMax}°F</div>
+        </div>
+      </Link>;
   }
 }

@@ -9,7 +9,7 @@ class App extends Component {
     super(props);
     this.defaultCities = [
       'New York',
-      'Dallas',
+      'Miami',
       'San Francisco',
       'Chicago',
       'Seattle'

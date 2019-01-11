@@ -100,28 +100,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+/* harmony import */ var _util_css_sun_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./util/css-sun.js */ "./frontend/util/css-sun.js");
+
 
 
 
 document.addEventListener('DOMContentLoaded', function () {
   var root = document.getElementById('root');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
-  var delta = 2.5;
-  var degrees = 0;
-  setInterval(function () {
-    return changeBackground();
-  }, 200);
-
-  var changeBackground = function changeBackground() {
-    if (delta + degrees >= 60) {
-      delta = -2.5;
-    } else if (delta + degrees <= -60) {
-      delta = 2.5;
-    }
-
-    degrees += delta;
-    document.documentElement.style.setProperty("--gradDeg", "".concat(degrees, "deg"));
-  };
+  Object(_util_css_sun_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
 
 /***/ }),
@@ -180,7 +167,7 @@ function (_Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-    _this.defaultCities = ['New York', 'Dallas', 'San Francisco', 'Chicago', 'Seattle'];
+    _this.defaultCities = ['New York', 'Miami', 'San Francisco', 'Chicago', 'Seattle'];
     _this.state = {};
     return _this;
   }
@@ -546,17 +533,22 @@ function (_Component) {
     value: function render() {
       var attrs = Object.entries(this.state);
       var imgSrc = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["getImgSrc"])(this.state.weatherMain);
+      var _this$state = this.state,
+          temp = _this$state.temp,
+          tempMax = _this$state.tempMax,
+          tempMin = _this$state.tempMin,
+          weatherMain = _this$state.weatherMain;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "dashboardItem city",
         to: "/".concat(this.props.name)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
         src: imgSrc
-      }), this.props.name), attrs.map(function (attr, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-          key: idx
-        }, attr[0], ": ", attr[1]);
-      }));
+      }), this.props.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dashItemDesc"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "temp"
+      }, temp, "\xB0F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Low ", tempMin, "\xB0F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "High ", tempMax, "\xB0F")));
     }
   }]);
 
@@ -589,6 +581,41 @@ var Root = function Root() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Root);
+
+/***/ }),
+
+/***/ "./frontend/util/css-sun.js":
+/*!**********************************!*\
+  !*** ./frontend/util/css-sun.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var cssSun = function cssSun() {
+  var delta = 2.5;
+  var degrees = 0;
+
+  var changeBackground = function changeBackground() {
+    if (delta + degrees >= 60) {
+      delta = -2.5;
+    } else if (delta + degrees <= -60) {
+      delta = 2.5;
+    }
+
+    degrees += delta;
+    console.log(degrees);
+    document.documentElement.style.setProperty("--gradDeg", "".concat(degrees, "deg"));
+    document.documentElement.style.setProperty("--shadow", "".concat(-degrees / 10, "px"));
+  };
+
+  return setInterval(function () {
+    return changeBackground();
+  }, 200);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (cssSun);
 
 /***/ }),
 

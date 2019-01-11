@@ -16,24 +16,29 @@
 
 :root {
   --gradDeg: -0deg;
+  --shadow: -6px;
 }
 
 html {
   height: 100%;
   width: 100%;
   font-family: 'Open Sans', sans-serif;
+}
+
+body {
   background-size: cover;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 @media only screen and (min-width: 660px) {
-  html {
+  body {
     background-image: linear-gradient(var(--gradDeg), white 5%, rgba(0, 140, 191, 0.46) 70%, #F7C700);
   }
 }
 
 @media only screen and (max-width: 661px) {
-  html {
+  body {
     background-image: linear-gradient(0, white 5%, rgba(0, 140, 191, 0.46) 70%, #F7C700);
   }
 }
