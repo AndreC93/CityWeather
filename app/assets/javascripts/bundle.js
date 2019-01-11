@@ -627,7 +627,6 @@ var cssSun = function cssSun() {
     }
 
     degrees += delta;
-    console.log(degrees);
     document.documentElement.style.setProperty("--gradDeg", "".concat(degrees, "deg"));
     document.documentElement.style.setProperty("--shadow", "".concat(-degrees / 10, "px"));
   };
