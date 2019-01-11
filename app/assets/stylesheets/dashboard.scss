@@ -1,9 +1,16 @@
 .dashboard {
+    // display: flex;
+    // justify-content: center;
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   width: 100%;
+  margin-bottom: 10px;
+  flex: 1 1 0;
 }
 
 .dashboardItem {
-  margin: 0 10px 0;
+  margin: 10px;
+  width: 100%;
+  hyphens: auto;
 }

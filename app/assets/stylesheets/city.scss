@@ -4,6 +4,10 @@
   box-sizing: border-box;
   padding: 15px;
   max-width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
 
   h2 {
     font-size: 25px;

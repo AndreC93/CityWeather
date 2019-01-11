@@ -10,17 +10,22 @@ export const fetchWeather = (name) => {
 export const parseData = (data) => {
   return {
     clouds: data.clouds.all || 0,
-    temp: data.main.temp,
+    temp: convertKToF(data.main.temp),
     pressure: data.main.pressure,
     humidity: data.main.humidity,
-    tempMin: data.main.temp_min,
-    tempMax: data.main.temp_max,
+    tempMin: convertKToF(data.main.temp_min),
+    tempMax: convertKToF(data.main.temp_max),
     rain: data.rain ? data.rain['1h']||data.rain['3h'] : 0,
     country: data.sys.country,
     weatherDesc: data.weather[0].description,
     weatherMain: data.weather[0].main,
   }
 };
+
+const convertKToF = (k) => {
+  if(typeof k !== 'number') return 0;
+  return Math.round((k - 273.15) * (9/5) + 32);
+}
 
 export const getImgSrc = (weatherMain) => {
   let src = '';

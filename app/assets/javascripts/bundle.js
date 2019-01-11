@@ -106,17 +106,17 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener('DOMContentLoaded', function () {
   var root = document.getElementById('root');
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
-  var delta = .6;
+  var delta = 2.5;
   var degrees = 0;
   setInterval(function () {
     return changeBackground();
-  }, 50);
+  }, 200);
 
   var changeBackground = function changeBackground() {
     if (delta + degrees >= 60) {
-      delta = -.6;
+      delta = -2.5;
     } else if (delta + degrees <= -60) {
-      delta = .6;
+      delta = 2.5;
     }
 
     degrees += delta;
@@ -614,17 +614,23 @@ var fetchWeather = function fetchWeather(name) {
 var parseData = function parseData(data) {
   return {
     clouds: data.clouds.all || 0,
-    temp: data.main.temp,
+    temp: convertKToF(data.main.temp),
     pressure: data.main.pressure,
     humidity: data.main.humidity,
-    tempMin: data.main.temp_min,
-    tempMax: data.main.temp_max,
+    tempMin: convertKToF(data.main.temp_min),
+    tempMax: convertKToF(data.main.temp_max),
     rain: data.rain ? data.rain['1h'] || data.rain['3h'] : 0,
     country: data.sys.country,
     weatherDesc: data.weather[0].description,
     weatherMain: data.weather[0].main
   };
 };
+
+var convertKToF = function convertKToF(k) {
+  if (typeof k !== 'number') return 0;
+  return Math.round((k - 273.15) * (9 / 5) + 32);
+};
+
 var getImgSrc = function getImgSrc(weatherMain) {
   var src = '';
 
