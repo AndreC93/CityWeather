@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from "react-router-dom";
-import { fetchWeather, parseData } from "../util/weather-util.js";
+import { Link, withRouter } from 'react-router-dom';
+import { fetchWeather, parseData, getImgSrc } from '../util/weather-util.js';
 
 class CityShow extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class CityShow extends Component {
   }
 
   checkName() {
-    if (this.props.name === undefined || this.props.name === "undefined") {
+    if (this.props.name === undefined || this.props.name === 'undefined') {
       return this.formatName(this.props.history.location.pathname.slice(1));
     } else {
       return this.props.name;
@@ -56,17 +56,23 @@ class CityShow extends Component {
 
   render() {
     if(!this.state.country) return null;
+    const imgSrc = getImgSrc(this.state.weatherMain);
 
     const attrs = Object.entries(this.state);
     return (
-      <div className='cityShow' >
-        <Link to={'/'} >Back to Dashboard</Link>
-        <h2>
-          {this.cityName}
-        </h2>
-        {attrs.map( (attr, idx) => <p key={idx} >{attr[0]}: {attr[1]}</p>)}
+      <div>
+        <Link to={'/'}>Back to Dashboard</Link>
+        <div className='cityShow city'>
+          <h2>
+            <img className='weatherImg' src={imgSrc} />
+            {this.cityName}
+          </h2>
+          {attrs.map((attr, idx) => <p key={idx}>
+              {attr[0]}: {attr[1]}
+            </p>)}
+        </div>
       </div>
-    )
+      );
   }
 }
 

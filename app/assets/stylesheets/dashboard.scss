@@ -1,4 +1,9 @@
 .dashboard {
   display: flex;
   justify-content: space-evenly;
+  width: 100%;
+}
+
+.dashboardItem {
+  margin: 0 10px 0;
 }

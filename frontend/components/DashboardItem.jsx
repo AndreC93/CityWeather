@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Icon, Image } from 'semantic-ui-react';
+import { getImgSrc } from '../util/weather-util.js';
 
 export default class DashboardItem extends Component {
   constructor(props) {
@@ -26,15 +26,15 @@ export default class DashboardItem extends Component {
 
   render() {
     const attrs = Object.entries(this.state);
+    const imgSrc = getImgSrc(this.state.weatherMain);
 
-    return (
-      <div className='dashboardItem' >
-        <image src=''/>
-        <Link to={`/${this.props.name}`}>
+    return(
+      <Link className="dashboardItem city"  to={`/${this.props.name}`}>
+        <h2>
+          <img className="weatherImg" src={imgSrc} />
           {this.props.name}
-        </Link>
-        {attrs.map((attr, idx) => <p key={idx} >{attr[0]}: {attr[1]}</p>)}
-      </div>
-    );
+        </h2>
+        {attrs.map((attr, idx) => <p key={idx}>{attr[0]}: {attr[1]}</p>)}
+      </Link>);
   }
 }
