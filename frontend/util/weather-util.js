@@ -15,18 +15,31 @@ export const parseData = (data) => {
     humidity: data.main.humidity,
     tempMin: data.main.temp_min,
     tempMax: data.main.temp_max,
-    rain: data.rain ? data.rain['1h'] : 0,
+    rain: data.rain ? data.rain['1h']||data.rain['3h'] : 0,
     country: data.sys.country,
     weatherDesc: data.weather[0].description,
     weatherMain: data.weather[0].main,
   }
 };
 
-export const getImageSrc = (weatherMain) => {
+export const getImgSrc = (weatherMain) => {
   let src = '';
   switch (weatherMain) {
-    case '':
+    case 'Rain':
+      src = window.rain;
       break;
+    case 'Clouds':
+      src = window.clouds;
+      break;
+    case 'Mist':
+    case 'Haze':
+      src = window.haze;
+      break;
+    case 'Hail':
+      src = window.hail;
+      break;
+    default:
+      src = window.sunny;
   }
 
   return src;
