@@ -39,7 +39,7 @@ class CityShow extends Component {
     if (oldState) {
       this.setState(oldState);
     } else {
-      this.getWeather(this.cityName);
+      this.getWeather();
     }
 
     this.interval = setInterval(() => this.getWeather(this.cityName), 10000);
@@ -50,9 +50,9 @@ class CityShow extends Component {
     if (addressName !== '/' && this.cityName.toLowerCase() !== addressName.slice(1).toLowerCase()) {
       clearInterval(this.interval);
       this.cityName = this.formatName(addressName.slice(1));
-      this.getWeather(this.cityName);
+      this.getWeather();
 
-      this.interval = setInterval(() => this.getWeather(this.cityName), 10000);
+      this.interval = setInterval(() => this.getWeather(), 10000);
     }
   }
 
@@ -60,8 +60,8 @@ class CityShow extends Component {
     clearInterval(this.interval);
   }
 
-  getWeather(city) {
-    fetchWeather(city)
+  getWeather() {
+    fetchWeather(this.cityName)
       .then(data => this.handleSuccess(data))
       .catch(errors => errors);
   }
@@ -69,6 +69,14 @@ class CityShow extends Component {
   handleSuccess(data) {
     const newState = parseData(data);
     this.setState(newState);
+  }
+
+  handleFailure() {
+    this.cityName = ''
+  }
+
+  capitalizeAll(str) {
+    return str.split(' ').map( word => this.capitalize(word) ).join(' ');
   }
 
   capitalize(str) {
@@ -86,9 +94,9 @@ class CityShow extends Component {
         <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />
-            {this.capitalize(this.cityName)}
+            {this.capitalizeAll(this.cityName)}
           </h2>
-          <div className='weatherDesc' >{this.capitalize(weatherDesc)}</div>
+          <div className='weatherDesc' >{this.capitalizeAll(weatherDesc)}</div>
           <div className="tempContainer">
             <div className="temp">{temp}°F</div>
             <div className='lowHigh'>
