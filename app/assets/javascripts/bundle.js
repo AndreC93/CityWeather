@@ -171,6 +171,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
     _this.defaultCities = ['New York', 'Miami', 'San Francisco', 'Chicago', 'Seattle'];
     _this.state = {};
+    _this.interval = null;
     return _this;
   }
 
@@ -185,13 +186,32 @@ function (_Component) {
       }, 10000);
     }
   }, {
+    key: "componentWillUpdate",
+    value: function componentWillUpdate() {
+      var _this3 = this;
+
+      var address = this.props.history.location.pathname;
+
+      if (address !== '/') {
+        if (this.interval) {
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+      } else if (!this.interval) {
+        this.fetchWeatherForCities();
+        this.interval = setInterval(function () {
+          return _this3.fetchWeatherForCities();
+        }, 10000);
+      }
+    }
+  }, {
     key: "fetchWeatherForCities",
     value: function fetchWeatherForCities() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.defaultCities.forEach(function (city) {
         Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__["fetchWeather"])(city).then(function (data) {
-          return _this3.handleSuccess(data, city);
+          return _this4.handleSuccess(data, city);
         }).catch(function (err) {
           return err;
         });
@@ -211,7 +231,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "App"
@@ -220,15 +240,15 @@ function (_Component) {
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
-            cities: _this4.defaultCities,
-            storedWeather: _this4.state
+            cities: _this5.defaultCities,
+            storedWeather: _this5.state
           }));
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
-            storedWeather: _this4.state
+            storedWeather: _this5.state
           }));
         }
       })));
@@ -238,7 +258,7 @@ function (_Component) {
   return App;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (App);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(App));
 
 /***/ }),
 

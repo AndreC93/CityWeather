@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import SearchBar from './SearchBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import CityShow from './CityShow.jsx';
@@ -16,11 +16,25 @@ class App extends Component {
       'Seattle'
     ];
     this.state = {};
+    this.interval = null;
   }
   
   componentDidMount() {
     this.fetchWeatherForCities();
     this.interval = setInterval( () => this.fetchWeatherForCities(), 10000);
+  }
+
+  componentWillUpdate() {
+    const address = this.props.history.location.pathname;
+    if(address !== '/') {
+      if (this.interval) {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+    } else if (!this.interval) {
+      this.fetchWeatherForCities();
+      this.interval = setInterval(() => this.fetchWeatherForCities(), 10000);
+    }
   }
 
   fetchWeatherForCities() {
@@ -60,4 +74,4 @@ class App extends Component {
 
 }
 
-export default App;
+export default withRouter(App);
