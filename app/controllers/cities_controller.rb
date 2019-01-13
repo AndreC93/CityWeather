@@ -27,7 +27,8 @@ class CitiesController < ApplicationController
     url = URI("https://api.openweathermap.org/data/2.5/weather?q=#{name}&APPID=c0a9b33f3889ab4f0926ba26ed8c9638")
     res = Net::HTTP.get_response(url)
     @city = res.body
-    if @city
+  
+    if res.msg != "Not Found"
       render json: @city
     else
       render json: 'No City Found', status: 404
