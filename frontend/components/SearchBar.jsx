@@ -27,13 +27,13 @@ export default withRouter(class SearchBar extends Component {
 
   render() {
     return (
-      <form className='searchBar' onSubmit={ (e) => this.handleSubmit(e) } >
-        <input 
-          placeholder='City Name' 
-          onChange={ (e) => this.handleInput(e) } 
-          value={ this.state.input }
-        ></input>
-        <button>Search</button>
+      <form id='searchBar' onSubmit={ (e) => this.handleSubmit(e) } >
+          <input 
+            placeholder='City Name' 
+            onChange={ (e) => this.handleInput(e) } 
+            value={ this.state.input }
+          ></input>
+          <button>Search</button>
       </form>
     )
   }

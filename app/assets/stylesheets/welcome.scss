@@ -2,7 +2,14 @@
   font-weight: bolder;
   font-size: 45px;
   text-align: center;
-  margin: 5% auto;
+  margin: 8% auto 5%;
   text-shadow: var(--shadow) 2px 5px rgb(52, 51, 51);
   cursor: default;
+}
+
+@media only screen and (max-width: 661px) {
+  .welcome {
+    text-shadow: 0 2px 5px rgb(52, 51, 51);
+    margin: 12% auto 5%;
+  }
 }

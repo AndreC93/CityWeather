@@ -705,7 +705,7 @@ function (_Component) {
       var _this2 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "searchBar",
+        id: "searchBar",
         onSubmit: function onSubmit(e) {
           return _this2.handleSubmit(e);
         }

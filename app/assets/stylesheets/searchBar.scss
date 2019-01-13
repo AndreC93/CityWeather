@@ -1,0 +1,19 @@
+#searchBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px 15px;
+  
+  input {
+    background: white;
+    padding: 8px 2px;
+    border-radius: 7px;
+  }
+  
+  button {
+    background: #89b3ff;
+    padding: 8px 8px;
+    border-radius: 7px;
+    margin-left: 8px;
+  }
+}
