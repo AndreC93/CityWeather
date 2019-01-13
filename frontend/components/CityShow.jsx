@@ -16,13 +16,14 @@ class CityShow extends Component {
       country: '',
       weatherDesc: '',
       weatherMain: '',
+      cityName: this.props.name || '',
     };
-    this.cityName = '';
-    this.interval = null;
+    this.interval = null,
+    this.failed = false;
   }
 
   checkName() {
-    if (this.props.name === undefined || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
+    if (!this.props.name || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
       return this.formatName(this.props.history.location.pathname.slice(1));
     } else {
       return this.props.name;
@@ -34,25 +35,25 @@ class CityShow extends Component {
   }
 
   componentDidMount() {
-    this.cityName = this.checkName();
-    const oldState = this.props.storedWeather[this.cityName];
+    const cityName = this.checkName();
+    const oldState = this.props.storedWeather[cityName];
     if (oldState) {
+      oldState.cityName = cityName;
       this.setState(oldState);
     } else {
-      this.getWeather();
+      this.getWeather(cityName);
     }
 
-    this.interval = setInterval(() => this.getWeather(this.cityName), 10000);
+    this.interval = setInterval(() => this.getWeather(this.state.cityName), 10000);
   }
   
   componentWillUpdate() {
-    const addressName = this.props.history.location.pathname;
-    if (addressName !== '/' && this.cityName.toLowerCase() !== addressName.slice(1).toLowerCase()) {
+    const addressName = this.props.history.location.pathname.slice(1);
+    const cityName = this.formatName(addressName);
+    if (this.props.history.location.pathname !== "/" && this.state.cityName.toLowerCase() !== addressName.toLowerCase() && addressName !== this.failedAddress) {
       clearInterval(this.interval);
-      this.cityName = this.formatName(addressName.slice(1));
-      this.getWeather();
-
-      this.interval = setInterval(() => this.getWeather(), 10000);
+      this.getWeather(cityName);
+      this.interval = setInterval(() => this.getWeather(cityName), 10000);
     }
   }
 
@@ -60,10 +61,10 @@ class CityShow extends Component {
     clearInterval(this.interval);
   }
 
-  getWeather() {
-    fetchWeather(this.cityName)
+  getWeather(city) {
+    return fetchWeather(city)
       .then(data => this.handleSuccess(data))
-      .catch(errors => errors);
+      .catch(errors => this.handleFailure(city));
   }
 
   handleSuccess(data) {
@@ -71,8 +72,19 @@ class CityShow extends Component {
     this.setState(newState);
   }
 
-  handleFailure() {
-    this.cityName = ''
+  handleFailure(city) {
+    this.setState({ 
+      cityName: city,
+      weatherDesc: 'Unavailable', 
+      weatherMain: '',
+      temp: 0, 
+      tempMin: 0, 
+      tempMax: 0, 
+      rain: 0, 
+      humidity: 0,
+      country: 'N/A',
+    });
+    this.failedAddress = city;
   }
 
   capitalizeAll(str) {
@@ -94,7 +106,7 @@ class CityShow extends Component {
         <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />
-            {this.capitalizeAll(this.cityName)}
+            {this.capitalizeAll(this.state.cityName)}
           </h2>
           <div className='weatherDesc' >{this.capitalizeAll(weatherDesc)}</div>
           <div className="tempContainer">

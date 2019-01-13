@@ -9,6 +9,7 @@ export const fetchWeather = (name) => {
   
 export const parseData = (data) => {
   return {
+    cityName: data.name,
     clouds: data.clouds.all || 0,
     temp: convertKToF(data.main.temp),
     pressure: data.main.pressure,

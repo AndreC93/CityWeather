@@ -125,9 +125,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-/* harmony import */ var _Dashboard_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Dashboard.jsx */ "./frontend/components/Dashboard.jsx");
-/* harmony import */ var _CityShow_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CityShow.jsx */ "./frontend/components/CityShow.jsx");
-/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
+/* harmony import */ var _SearchBar_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SearchBar.jsx */ "./frontend/components/SearchBar.jsx");
+/* harmony import */ var _Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Dashboard.jsx */ "./frontend/components/Dashboard.jsx");
+/* harmony import */ var _CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CityShow.jsx */ "./frontend/components/CityShow.jsx");
+/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -149,6 +150,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -188,7 +190,7 @@ function (_Component) {
       var _this3 = this;
 
       this.defaultCities.forEach(function (city) {
-        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_4__["fetchWeather"])(city).then(function (data) {
+        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__["fetchWeather"])(city).then(function (data) {
           return _this3.handleSuccess(data, city);
         }).catch(function (err) {
           return err;
@@ -203,7 +205,7 @@ function (_Component) {
   }, {
     key: "handleSuccess",
     value: function handleSuccess(data, city) {
-      var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_4__["parseData"])(data);
+      var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__["parseData"])(data);
       this.setState(_defineProperty({}, city, newState));
     }
   }, {
@@ -213,11 +215,11 @@ function (_Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "App"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchBar_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         exact: true,
         path: "/",
         render: function render(props) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], _extends({}, props, {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
             cities: _this4.defaultCities,
             storedWeather: _this4.state
           }));
@@ -225,7 +227,7 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         render: function render(props) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityShow_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
             storedWeather: _this4.state
           }));
         }
@@ -296,17 +298,17 @@ function (_Component) {
       rain: 0,
       country: '',
       weatherDesc: '',
-      weatherMain: ''
+      weatherMain: '',
+      cityName: _this.props.name || ''
     };
-    _this.cityName = '';
-    _this.interval = null;
+    _this.interval = null, _this.failed = false;
     return _this;
   }
 
   _createClass(CityShow, [{
     key: "checkName",
     value: function checkName() {
-      if (this.props.name === undefined || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
+      if (!this.props.name || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
         return this.formatName(this.props.history.location.pathname.slice(1));
       } else {
         return this.props.name;
@@ -326,17 +328,18 @@ function (_Component) {
     value: function componentDidMount() {
       var _this3 = this;
 
-      this.cityName = this.checkName();
-      var oldState = this.props.storedWeather[this.cityName];
+      var cityName = this.checkName();
+      var oldState = this.props.storedWeather[cityName];
 
       if (oldState) {
+        oldState.cityName = cityName;
         this.setState(oldState);
       } else {
-        this.getWeather(this.cityName);
+        this.getWeather(cityName);
       }
 
       this.interval = setInterval(function () {
-        return _this3.getWeather(_this3.cityName);
+        return _this3.getWeather(_this3.state.cityName);
       }, 10000);
     }
   }, {
@@ -344,14 +347,14 @@ function (_Component) {
     value: function componentWillUpdate() {
       var _this4 = this;
 
-      var addressName = this.props.history.location.pathname;
+      var addressName = this.props.history.location.pathname.slice(1);
+      var cityName = this.formatName(addressName);
 
-      if (addressName !== '/' && this.cityName.toLowerCase() !== addressName.slice(1).toLowerCase()) {
+      if (this.props.history.location.pathname !== "/" && this.state.cityName.toLowerCase() !== addressName.toLowerCase() && addressName !== this.failedAddress) {
         clearInterval(this.interval);
-        this.cityName = this.formatName(addressName.slice(1));
-        this.getWeather(this.cityName);
+        this.getWeather(cityName);
         this.interval = setInterval(function () {
-          return _this4.getWeather(_this4.cityName);
+          return _this4.getWeather(cityName);
         }, 10000);
       }
     }
@@ -365,10 +368,10 @@ function (_Component) {
     value: function getWeather(city) {
       var _this5 = this;
 
-      Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(city).then(function (data) {
+      return Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["fetchWeather"])(city).then(function (data) {
         return _this5.handleSuccess(data);
       }).catch(function (errors) {
-        return errors;
+        return _this5.handleFailure(city);
       });
     }
   }, {
@@ -376,6 +379,31 @@ function (_Component) {
     value: function handleSuccess(data) {
       var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["parseData"])(data);
       this.setState(newState);
+    }
+  }, {
+    key: "handleFailure",
+    value: function handleFailure(city) {
+      this.setState({
+        cityName: city,
+        weatherDesc: 'Unavailable',
+        weatherMain: '',
+        temp: 0,
+        tempMin: 0,
+        tempMax: 0,
+        rain: 0,
+        humidity: 0,
+        country: 'N/A'
+      });
+      this.failedAddress = city;
+    }
+  }, {
+    key: "capitalizeAll",
+    value: function capitalizeAll(str) {
+      var _this6 = this;
+
+      return str.split(' ').map(function (word) {
+        return _this6.capitalize(word);
+      }).join(' ');
     }
   }, {
     key: "capitalize",
@@ -403,9 +431,9 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
         src: imgSrc
-      }), this.capitalize(this.cityName)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.capitalizeAll(this.state.cityName)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "weatherDesc"
-      }, this.capitalize(weatherDesc)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.capitalizeAll(weatherDesc)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tempContainer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "temp"
@@ -603,6 +631,99 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./frontend/components/SearchBar.jsx":
+/*!*******************************************!*\
+  !*** ./frontend/components/SearchBar.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(
+/*#__PURE__*/
+function (_Component) {
+  _inherits(SearchBar, _Component);
+
+  function SearchBar(props) {
+    var _this;
+
+    _classCallCheck(this, SearchBar);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SearchBar).call(this, props));
+    _this.state = {
+      input: ''
+    };
+    return _this;
+  }
+
+  _createClass(SearchBar, [{
+    key: "handleInput",
+    value: function handleInput(e) {
+      this.setState({
+        input: e.target.value
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+
+      if (this.state.input) {
+        this.props.history.push("/".concat(this.state.input));
+        this.setState({
+          input: ''
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "searchBar",
+        onSubmit: function onSubmit(e) {
+          return _this2.handleSubmit(e);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "City Name",
+        onChange: function onChange(e) {
+          return _this2.handleInput(e);
+        },
+        value: this.state.input
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Search"));
+    }
+  }]);
+
+  return SearchBar;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"])));
+
+/***/ }),
+
 /***/ "./frontend/components/root.jsx":
 /*!**************************************!*\
   !*** ./frontend/components/root.jsx ***!
@@ -683,6 +804,7 @@ var fetchWeather = function fetchWeather(name) {
 };
 var parseData = function parseData(data) {
   return {
+    cityName: data.name,
     clouds: data.clouds.all || 0,
     temp: convertKToF(data.main.temp),
     pressure: data.main.pressure,
@@ -720,6 +842,10 @@ var getImgSrc = function getImgSrc(weatherMain) {
 
     case 'Hail':
       src = window.hail;
+      break;
+
+    case '':
+      src = window.notFound;
       break;
 
     default:
