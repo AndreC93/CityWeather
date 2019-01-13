@@ -84,6 +84,8 @@ class CityShow extends Component {
       humidity: 0,
       country: 'N/A',
     });
+    clearInterval(this.interval);
+    this.interval = null;
     this.failedAddress = city;
   }
 
@@ -95,10 +97,19 @@ class CityShow extends Component {
     return str[0].toUpperCase() + str.slice(1);
   }
 
+  makeDashButton(cityName) {
+    if (!this.props.cities.includes(cityName)) {
+      return (<div className='dashButton' onClick={() => this.props.addToDashboard(cityName)} >Add to Dashboard</div>);
+    } else {
+      return (<div className='dashButton' onClick={() => this.props.removeFromDashboard(cityName)} >Remove from Dashboard</div>);
+    }
+  }
+
   render() {
     if(!this.state.country) return null;
     const imgSrc = getImgSrc(this.state.weatherMain);
-    const { weatherDesc, temp, tempMin, tempMax, rain, humidity } = this.state;
+    const { cityName, weatherDesc, temp, tempMin, tempMax, rain, humidity } = this.state;
+    const dashButton = this.makeDashButton(cityName);
 
     return (
       <div className='cityShow' >
@@ -106,7 +117,7 @@ class CityShow extends Component {
         <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />
-            {this.capitalizeAll(this.state.cityName)}
+            {this.capitalizeAll(cityName)}
           </h2>
           <div className='weatherDesc' >{this.capitalizeAll(weatherDesc)}</div>
           <div className="tempContainer">
@@ -119,6 +130,7 @@ class CityShow extends Component {
             <div>Rain/hr: {rain}mm</div>
             <div>Humidity: {humidity}%</div>
           </div>
+          {dashButton}
         </div>
       </div>
       );

@@ -143,13 +143,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
 
@@ -172,6 +172,8 @@ function (_Component) {
     _this.defaultCities = ['New York', 'Miami', 'San Francisco', 'Chicago', 'Seattle'];
     _this.state = {};
     _this.interval = null;
+    _this.addToDashboard = _this.addToDashboard.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.removeFromDashboard = _this.removeFromDashboard.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -218,6 +220,18 @@ function (_Component) {
       });
     }
   }, {
+    key: "addToDashboard",
+    value: function addToDashboard(city) {
+      this.defaultCities.push(city);
+      this.props.history.push("/");
+    }
+  }, {
+    key: "removeFromDashboard",
+    value: function removeFromDashboard(city) {
+      this.defaultCities.splice(this.defaultCities.indexOf(city), 1);
+      this.props.history.push("/");
+    }
+  }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       clearInterval(this.interval);
@@ -241,14 +255,19 @@ function (_Component) {
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
             cities: _this5.defaultCities,
-            storedWeather: _this5.state
+            storedWeather: _this5.state,
+            addToDashboard: _this5.addToDashboard,
+            removeFromDashboard: _this5.removeFromDashboard
           }));
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
-            storedWeather: _this5.state
+            cities: _this5.defaultCities,
+            storedWeather: _this5.state,
+            addToDashboard: _this5.addToDashboard,
+            removeFromDashboard: _this5.removeFromDashboard
           }));
         }
       })));
@@ -414,6 +433,8 @@ function (_Component) {
         humidity: 0,
         country: 'N/A'
       });
+      clearInterval(this.interval);
+      this.interval = null;
       this.failedAddress = city;
     }
   }, {
@@ -431,17 +452,40 @@ function (_Component) {
       return str[0].toUpperCase() + str.slice(1);
     }
   }, {
+    key: "makeDashButton",
+    value: function makeDashButton(cityName) {
+      var _this7 = this;
+
+      if (!this.props.cities.includes(cityName)) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "dashButton",
+          onClick: function onClick() {
+            return _this7.props.addToDashboard(cityName);
+          }
+        }, "Add to Dashboard");
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "dashButton",
+          onClick: function onClick() {
+            return _this7.props.removeFromDashboard(cityName);
+          }
+        }, "Remove from Dashboard");
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       if (!this.state.country) return null;
       var imgSrc = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["getImgSrc"])(this.state.weatherMain);
       var _this$state = this.state,
+          cityName = _this$state.cityName,
           weatherDesc = _this$state.weatherDesc,
           temp = _this$state.temp,
           tempMin = _this$state.tempMin,
           tempMax = _this$state.tempMax,
           rain = _this$state.rain,
           humidity = _this$state.humidity;
+      var dashButton = this.makeDashButton(cityName);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cityShow"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -451,7 +495,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
         src: imgSrc
-      }), this.capitalizeAll(this.state.cityName)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.capitalizeAll(cityName)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "weatherDesc"
       }, this.capitalizeAll(weatherDesc)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tempContainer"
@@ -461,7 +505,7 @@ function (_Component) {
         className: "lowHigh"
       }, tempMin, "\xB0F - ", tempMax, "\xB0F")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "additionalDesc"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Rain/hr: ", rain, "mm"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Humidity: ", humidity, "%"))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Rain/hr: ", rain, "mm"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Humidity: ", humidity, "%")), dashButton));
     }
   }]);
 

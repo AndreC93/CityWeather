@@ -17,6 +17,8 @@ class App extends Component {
     ];
     this.state = {};
     this.interval = null;
+    this.addToDashboard = this.addToDashboard.bind(this);
+    this.removeFromDashboard = this.removeFromDashboard.bind(this);
   }
   
   componentDidMount() {
@@ -45,6 +47,16 @@ class App extends Component {
     })
   }
 
+  addToDashboard(city) {
+    this.defaultCities.push(city);
+    this.props.history.push(`/`);
+  }
+
+  removeFromDashboard(city) {
+    this.defaultCities.splice(this.defaultCities.indexOf(city), 1);
+    this.props.history.push(`/`);
+  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
@@ -61,11 +73,19 @@ class App extends Component {
         <Switch>
           <Route 
             exact path='/' 
-            render={props => <Dashboard {...props} cities={this.defaultCities} storedWeather={this.state} />}
+            render={props => <Dashboard {...props} 
+              cities={this.defaultCities} 
+              storedWeather={this.state} 
+              addToDashboard={this.addToDashboard} 
+              removeFromDashboard={this.removeFromDashboard} />}
           />
           <Route 
             path='/' 
-            render={ props => <CityShow {...props} storedWeather={this.state} />} 
+            render={props => <CityShow {...props} 
+              cities={this.defaultCities} 
+              storedWeather={this.state} 
+              addToDashboard={this.addToDashboard} 
+              removeFromDashboard={this.removeFromDashboard} />} 
           />
         </Switch>
       </div>
