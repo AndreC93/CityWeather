@@ -1,0 +1,25 @@
+.addToDash {
+  &:hover {
+    background-color: #60da64;
+  }
+  
+}
+
+.removeFromDash {
+  &:hover {
+    background-color: rgb(235, 38, 38);
+  }
+}
+
+.dashButton {
+  width: fit-content;
+  margin: 5px auto 0;
+  background-color: #89b3ff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  transition: background-color 0.15s ease-out;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 1px black;
+}

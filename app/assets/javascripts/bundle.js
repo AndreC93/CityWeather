@@ -453,41 +453,42 @@ function (_Component) {
     }
   }, {
     key: "makeDashButton",
-    value: function makeDashButton(cityName) {
+    value: function makeDashButton(cityName, weatherMain) {
       var _this7 = this;
 
-      if (cityName === this.failedAddress) return null;
+      if (cityName === this.failedAddress || !weatherMain) return null;
 
       if (!this.props.cities.includes(cityName)) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "dashButton",
+          className: "dashButton addToDash",
           onClick: function onClick() {
             return _this7.props.addToDashboard(cityName);
           }
-        }, "Add to Dashboard");
+        }, "Add");
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "dashButton",
+          className: "dashButton removeFromDash",
           onClick: function onClick() {
             return _this7.props.removeFromDashboard(cityName);
           }
-        }, "Remove from Dashboard");
+        }, "Remove");
       }
     }
   }, {
     key: "render",
     value: function render() {
       if (!this.state.country) return null;
-      var imgSrc = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["getImgSrc"])(this.state.weatherMain);
       var _this$state = this.state,
           cityName = _this$state.cityName,
           weatherDesc = _this$state.weatherDesc,
+          weatherMain = _this$state.weatherMain,
           temp = _this$state.temp,
           tempMin = _this$state.tempMin,
           tempMax = _this$state.tempMax,
           rain = _this$state.rain,
           humidity = _this$state.humidity;
-      var dashButton = this.makeDashButton(cityName);
+      var imgSrc = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_2__["getImgSrc"])(weatherMain);
+      var dashButton = this.makeDashButton(cityName, weatherMain);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cityShow"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
