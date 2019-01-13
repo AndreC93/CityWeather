@@ -97,20 +97,20 @@ class CityShow extends Component {
     return str[0].toUpperCase() + str.slice(1);
   }
 
-  makeDashButton(cityName) {
-    if(cityName === this.failedAddress) return null;
+  makeDashButton(cityName, weatherMain) {
+    if(cityName === this.failedAddress || !weatherMain) return null;
     if (!this.props.cities.includes(cityName)) {
-      return (<div className='dashButton' onClick={() => this.props.addToDashboard(cityName)} >Add to Dashboard</div>);
+      return (<div className='dashButton addToDash' onClick={() => this.props.addToDashboard(cityName)} >Add</div>);
     } else {
-      return (<div className='dashButton' onClick={() => this.props.removeFromDashboard(cityName)} >Remove from Dashboard</div>);
+      return (<div className='dashButton removeFromDash' onClick={() => this.props.removeFromDashboard(cityName)} >Remove</div>);
     }
   }
 
   render() {
     if(!this.state.country) return null;
-    const imgSrc = getImgSrc(this.state.weatherMain);
-    const { cityName, weatherDesc, temp, tempMin, tempMax, rain, humidity } = this.state;
-    const dashButton = this.makeDashButton(cityName);
+    const { cityName, weatherDesc, weatherMain, temp, tempMin, tempMax, rain, humidity } = this.state;
+    const imgSrc = getImgSrc(weatherMain);
+    const dashButton = this.makeDashButton(cityName, weatherMain);
 
     return (
       <div className='cityShow' >
