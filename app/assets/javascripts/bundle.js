@@ -456,6 +456,8 @@ function (_Component) {
     value: function makeDashButton(cityName) {
       var _this7 = this;
 
+      if (cityName === this.failedAddress) return null;
+
       if (!this.props.cities.includes(cityName)) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "dashButton",

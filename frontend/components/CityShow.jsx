@@ -98,6 +98,7 @@ class CityShow extends Component {
   }
 
   makeDashButton(cityName) {
+    if(cityName === this.failedAddress) return null;
     if (!this.props.cities.includes(cityName)) {
       return (<div className='dashButton' onClick={() => this.props.addToDashboard(cityName)} >Add to Dashboard</div>);
     } else {
