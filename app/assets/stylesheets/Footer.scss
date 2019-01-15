@@ -1,0 +1,14 @@
+#footer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  img {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 0.5rem;
+    &:hover {
+      transform: scale(1.05, 1.05);
+    }
+  }
+}
