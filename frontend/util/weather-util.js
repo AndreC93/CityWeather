@@ -30,33 +30,37 @@ const convertKToF = (k) => {
 
 export const getImgSrc = (weatherMain) => {
   let src = '';
+
   switch (weatherMain) {
     case 'Rain':
-      src = window.rain;
-      break;
+    src = window.rain;
+    break;
     case 'Clouds':
-      src = window.clouds;
-      break;
+    src = window.clouds;
+    break;
     case 'Mist':
     case 'Haze':
-      src = window.haze;
-      break;
+    src = window.haze;
+    break;
     case 'Hail':
-      src = window.hail;
-      break;
+    src = window.hail;
+    break;
     case 'Snow':
-      src = window.snow;
-      break;
+    src = window.snow;
+    break;
     case 'Wind':
-      src = window.wind;
-      break;
-    case '':
-      src = window.notFound;
-      break;
+    src = window.wind;
+    break;
+    case 'Unavailable':
+    src = window.notFound;
+    break;
+    case 'Pending':
+    src = window.loading;
+    break;
     default:
-      src = window.sunny;
+    src = window.sunny;
   }
-
+  
   return src;
 }
 

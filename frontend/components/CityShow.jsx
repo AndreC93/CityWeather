@@ -14,8 +14,8 @@ class CityShow extends Component {
       tempMax: 0,
       rain: 0,
       country: '',
-      weatherDesc: '',
-      weatherMain: '',
+      weatherDesc: 'Pending',
+      weatherMain: 'Pending',
       cityName: this.props.name || '',
     };
     this.interval = null,
@@ -76,7 +76,7 @@ class CityShow extends Component {
     this.setState({ 
       cityName: city,
       weatherDesc: 'Unavailable', 
-      weatherMain: '',
+      weatherMain: 'Unavailable',
       temp: 0, 
       tempMin: 0, 
       tempMax: 0, 
@@ -107,7 +107,6 @@ class CityShow extends Component {
   }
 
   render() {
-    if(!this.state.country) return null;
     const { cityName, weatherDesc, weatherMain, temp, tempMin, tempMax, rain, humidity } = this.state;
     const imgSrc = getImgSrc(weatherMain);
     const dashButton = this.makeDashButton(cityName, weatherMain);
@@ -117,9 +116,9 @@ class CityShow extends Component {
         <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />
-            {this.capitalizeAll(cityName)}
+            {cityName ? this.capitalizeAll(cityName) : ''}
           </h2>
-          <div className='weatherDesc' >{this.capitalizeAll(weatherDesc)}</div>
+          <div className='weatherDesc' >{weatherDesc ? this.capitalizeAll(weatherDesc) : ''}</div>
           <div className="tempContainer">
             <div className="temp">{temp}°F</div>
             <div className='lowHigh'>

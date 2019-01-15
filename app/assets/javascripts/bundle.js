@@ -360,8 +360,8 @@ function (_Component) {
       tempMax: 0,
       rain: 0,
       country: '',
-      weatherDesc: '',
-      weatherMain: '',
+      weatherDesc: 'Pending',
+      weatherMain: 'Pending',
       cityName: _this.props.name || ''
     };
     _this.interval = null, _this.failed = false;
@@ -449,7 +449,7 @@ function (_Component) {
       this.setState({
         cityName: city,
         weatherDesc: 'Unavailable',
-        weatherMain: '',
+        weatherMain: 'Unavailable',
         temp: 0,
         tempMin: 0,
         tempMax: 0,
@@ -501,7 +501,6 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.state.country) return null;
       var _this$state = this.state,
           cityName = _this$state.cityName,
           weatherDesc = _this$state.weatherDesc,
@@ -520,9 +519,9 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
         src: imgSrc
-      }), this.capitalizeAll(cityName)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), cityName ? this.capitalizeAll(cityName) : ''), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "weatherDesc"
-      }, this.capitalizeAll(weatherDesc)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, weatherDesc ? this.capitalizeAll(weatherDesc) : ''), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tempContainer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "temp"
@@ -1191,8 +1190,12 @@ var getImgSrc = function getImgSrc(weatherMain) {
       src = window.wind;
       break;
 
-    case '':
+    case 'Unavailable':
       src = window.notFound;
+      break;
+
+    case 'Pending':
+      src = window.loading;
       break;
 
     default:
