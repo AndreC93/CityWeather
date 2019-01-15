@@ -629,7 +629,7 @@ function (_Component) {
       var minutes = date.getMinutes();
       var amOrPm = hours >= 12 ? 'PM' : 'AM';
       hours %= 12;
-      return "".concat(hours ? hours : '12', ":").concat(minutes > 10 ? minutes : '0' + minutes, " ").concat(amOrPm);
+      return "".concat(hours ? hours : '12', ":").concat(minutes >= 10 ? minutes : '0' + minutes, " ").concat(amOrPm);
     }
   }, {
     key: "componentWillUnmount",
@@ -880,7 +880,7 @@ function (_Component) {
       } else {
         header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           to: "/"
-        }, "Back to Dashboard");
+        });
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1177,6 +1177,14 @@ var getImgSrc = function getImgSrc(weatherMain) {
 
     case 'Hail':
       src = window.hail;
+      break;
+
+    case 'Snow':
+      src = window.snow;
+      break;
+
+    case 'Wind':
+      src = window.wind;
       break;
 
     case '':

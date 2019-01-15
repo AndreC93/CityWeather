@@ -37,8 +37,8 @@ export default class Dashboard extends Component {
     const minutes = date.getMinutes();
     const amOrPm = hours >= 12 ? 'PM' : 'AM';
     hours %= 12;
-
-    return `${hours ? hours : '12'}:${minutes > 10 ? minutes : '0' + minutes} ${amOrPm}`;
+    
+    return `${hours ? hours : '12'}:${minutes >= 10 ? minutes : '0' + minutes} ${amOrPm}`;
   }
 
   componentWillUnmount() {

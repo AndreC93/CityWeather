@@ -44,6 +44,12 @@ export const getImgSrc = (weatherMain) => {
     case 'Hail':
       src = window.hail;
       break;
+    case 'Snow':
+      src = window.snow;
+      break;
+    case 'Wind':
+      src = window.wind;
+      break;
     case '':
       src = window.notFound;
       break;
