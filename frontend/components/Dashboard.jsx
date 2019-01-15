@@ -11,7 +11,14 @@ export default class Dashboard extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.generateDate(), 1000); 
+    this.interval = setInterval(() => this.updateTimeAndDate(), 1000); 
+  }
+
+  updateTimeAndDate() {
+    this.setState({
+      date: this.generateDate(),
+      time: this.generateTime(),
+    });
   }
 
   generateDate() {
@@ -21,11 +28,17 @@ export default class Dashboard extends Component {
     const month = months[new Date().getMonth()];
     const date = new Date().getDate();
     const year = new Date().getFullYear();
-    const time = new Date().toLocaleTimeString();
-    this.setState({
-      date: `${day}, ${month} ${date}, ${year}`,
-      time,
-    });
+    return `${day}, ${month} ${date}, ${year}`;
+  }
+  
+  generateTime() {
+    const date = new Date();
+    let hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? 'PM' : 'AM';
+    hours %= 12;
+
+    return `${hours ? hours : '12'}:${minutes > 10 ? minutes : '0' + minutes} ${amOrPm}`;
   }
 
   componentWillUnmount() {
@@ -34,8 +47,11 @@ export default class Dashboard extends Component {
 
   render() {
     const {cities} = this.props;
-    const {date, time} = this.state;
-    // if(!date) this.generateDate();
+    let {date, time} = this.state;
+    if(!date) {
+      date = this.generateDate();
+      time = this.generateTime();
+    }
 
     return (
       <div id='dashContainer'>

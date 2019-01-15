@@ -597,8 +597,16 @@ function (_Component) {
       var _this2 = this;
 
       this.interval = setInterval(function () {
-        return _this2.generateDate();
+        return _this2.updateTimeAndDate();
       }, 1000);
+    }
+  }, {
+    key: "updateTimeAndDate",
+    value: function updateTimeAndDate() {
+      this.setState({
+        date: this.generateDate(),
+        time: this.generateTime()
+      });
     }
   }, {
     key: "generateDate",
@@ -609,11 +617,17 @@ function (_Component) {
       var month = months[new Date().getMonth()];
       var date = new Date().getDate();
       var year = new Date().getFullYear();
-      var time = new Date().toLocaleTimeString();
-      this.setState({
-        date: "".concat(day, ", ").concat(month, " ").concat(date, ", ").concat(year),
-        time: time
-      });
+      return "".concat(day, ", ").concat(month, " ").concat(date, ", ").concat(year);
+    }
+  }, {
+    key: "generateTime",
+    value: function generateTime() {
+      var date = new Date();
+      var hours = date.getHours();
+      var minutes = date.getMinutes();
+      var amOrPm = hours >= 12 ? 'PM' : 'AM';
+      hours %= 12;
+      return "".concat(hours ? hours : '12', ":").concat(minutes > 10 ? minutes : '0' + minutes, " ").concat(amOrPm);
     }
   }, {
     key: "componentWillUnmount",
@@ -628,7 +642,12 @@ function (_Component) {
       var cities = this.props.cities;
       var _this$state = this.state,
           date = _this$state.date,
-          time = _this$state.time; // if(!date) this.generateDate();
+          time = _this$state.time;
+
+      if (!date) {
+        date = this.generateDate();
+        time = this.generateTime();
+      }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "dashContainer"
