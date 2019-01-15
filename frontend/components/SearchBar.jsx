@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { formatName } from '../util/parse-string.js';
 
 export default withRouter(class SearchBar extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default withRouter(class SearchBar extends Component {
   handleSubmit(e) {
     e.preventDefault();
     if(this.state.input) {
-      this.props.history.push(`/${this.state.input}`);
+      this.props.history.push(`/${formatName(this.state.input)}`);
       this.setState({
         input: '',
       });

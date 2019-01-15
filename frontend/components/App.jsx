@@ -68,6 +68,7 @@ class App extends Component {
   addToDashboard(city) {
     this.state.cities.push(city);
     this.props.history.push(`/`);
+    this.setState({cities: this.state.cities})
   }
   
   removeFromDashboard(city) {

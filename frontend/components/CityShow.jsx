@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { fetchWeather, parseData, getImgSrc } from '../util/weather-util.js';
+import { formatName, capitalizeAll } from '../util/parse-string.js';
+import TempContainer from './TempContainer.js';
+import WeatherImg from './WeatherImg.jsx';
 
 class CityShow extends Component {
   constructor(props) {
@@ -16,26 +19,14 @@ class CityShow extends Component {
       country: '',
       weatherDesc: 'Pending',
       weatherMain: 'Pending',
-      cityName: this.props.name || '',
+      cityName: '',
     };
     this.interval = null,
     this.failed = false;
   }
 
-  checkName() {
-    if (!this.props.name || this.props.name === "undefined" || this.props.history.location.pathname !== '/') {
-      return this.formatName(this.props.history.location.pathname.slice(1));
-    } else {
-      return this.props.name;
-    }
-  }
-  
-  formatName(name) {
-    return name.split('+').map( word => this.capitalize(word) ).join(' ');
-  }
-
   componentDidMount() {
-    const cityName = this.checkName();
+    const cityName = formatName(this.props.history.location.pathname);
     const oldState = this.props.storedWeather[cityName];
     if (oldState) {
       oldState.cityName = cityName;
@@ -48,9 +39,9 @@ class CityShow extends Component {
   }
   
   componentWillUpdate() {
-    const addressName = this.props.history.location.pathname.slice(1);
-    const cityName = this.formatName(addressName);
-    if (this.props.history.location.pathname !== "/" && this.state.cityName.toLowerCase() !== addressName.toLowerCase() && addressName !== this.failedAddress) {
+    const addressName = formatName(this.props.history.location.pathname);
+    const cityName = formatName(addressName);
+    if (this.props.history.location.pathname !== '/' && this.state.cityName !== addressName && addressName !== this.failedAddress) {
       clearInterval(this.interval);
       this.getWeather(cityName);
       this.interval = setInterval(() => this.getWeather(cityName), 10000);
@@ -89,14 +80,6 @@ class CityShow extends Component {
     this.failedAddress = city;
   }
 
-  capitalizeAll(str) {
-    return str.split(' ').map( word => this.capitalize(word) ).join(' ');
-  }
-
-  capitalize(str) {
-    return str[0].toUpperCase() + str.slice(1);
-  }
-
   makeDashButton(cityName, weatherMain) {
     if(cityName === this.failedAddress || !weatherMain || weatherMain === 'Unavailable' || weatherMain === 'Pending') return null;
     if (!this.props.cities.includes(cityName)) {
@@ -108,23 +91,14 @@ class CityShow extends Component {
 
   render() {
     const { cityName, weatherDesc, weatherMain, temp, tempMin, tempMax, rain, humidity } = this.state;
-    const imgSrc = getImgSrc(weatherMain);
     const dashButton = this.makeDashButton(cityName, weatherMain);
 
     return (
       <div className='cityShow' >
         <div className='city'>
-          <h2>
-            <img className='weatherImg' src={imgSrc} />
-            {cityName ? this.capitalizeAll(cityName) : ''}
-          </h2>
-          <div className='weatherDesc' >{weatherDesc ? this.capitalizeAll(weatherDesc) : ''}</div>
-          <div className="tempContainer">
-            <div className="temp">{temp}°F</div>
-            <div className='lowHigh'>
-              {tempMin}°F - {tempMax}°F
-          </div>
-          </div>
+          <WeatherImg weatherMain={weatherMain} cityName={cityName} />
+          <div className='weatherDesc' >{weatherDesc ? capitalizeAll(weatherDesc) : ''}</div>
+          <TempContainer temps={[temp, tempMin, tempMax]} />
           <div className='additionalDesc'>
             <div>Rain/hr: {rain}mm</div>
             <div>Humidity: {humidity}%</div>

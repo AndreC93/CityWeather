@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getImgSrc } from '../util/weather-util.js';
+import TempContainer from './TempContainer.js';
+import WeatherImg from './WeatherImg.jsx';
 
 export default class DashboardItem extends Component {
   constructor(props) {
@@ -25,21 +27,13 @@ export default class DashboardItem extends Component {
   }
 
   render() {
-    const attrs = Object.entries(this.state);
-    const imgSrc = getImgSrc(this.state.weatherMain);
     const { temp, tempMax, tempMin, weatherMain } = this.state;
+    const imgSrc = getImgSrc(weatherMain);
 
-    return <Link className="dashboardItem city" to={`/${this.props.name}`}>
-        <h2>
-          <img className="weatherImg" src={imgSrc} />
-          {this.props.name}
-        </h2>
-        <div className="tempContainer">
-          <div className="temp">{temp}°F</div>
-          <div className='lowHigh'>
-            {tempMin}°F - {tempMax}°F
-          </div>
-        </div>
-      </Link>;
+    return (
+      <Link className="dashboardItem city" to={`/${this.props.name}`}>
+        <WeatherImg weatherMain={weatherMain} cityName={this.props.name} />
+        <TempContainer temps={[temp, tempMin, tempMax]}/>
+      </Link>);
   }
 }

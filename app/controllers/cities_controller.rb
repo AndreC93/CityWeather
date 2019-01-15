@@ -36,8 +36,10 @@ class CitiesController < ApplicationController
   end
 
   def index
-    @cities = City.where(creator_id: current_user.id);
-    render json: @cities
+    if current_user
+      @cities = City.where(creator_id: current_user.id);
+      render json: @cities
+    end
   end
 
   private
