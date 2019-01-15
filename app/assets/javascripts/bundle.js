@@ -128,7 +128,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TopBar_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TopBar.jsx */ "./frontend/components/TopBar.jsx");
 /* harmony import */ var _Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Dashboard.jsx */ "./frontend/components/Dashboard.jsx");
 /* harmony import */ var _CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CityShow.jsx */ "./frontend/components/CityShow.jsx");
-/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
+/* harmony import */ var _Footer_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Footer.jsx */ "./frontend/components/Footer.jsx");
+/* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -150,6 +151,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 
 
 
@@ -195,7 +197,7 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      window.addEventListener('beforeunload', this.saveState);
+      window.addEventListener('unload', this.saveState);
       this.fetchWeatherForCities();
       this.interval = setInterval(function () {
         return _this2.fetchWeatherForCities();
@@ -233,7 +235,7 @@ function (_Component) {
       var _this4 = this;
 
       this.state.cities.forEach(function (city) {
-        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__["fetchWeather"])(city).then(function (data) {
+        Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_6__["fetchWeather"])(city).then(function (data) {
           return _this4.handleSuccess(data, city);
         }).catch(function (err) {
           return err;
@@ -255,13 +257,13 @@ function (_Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      window.removeEventListener('beforeunload', this.saveState);
+      window.removeEventListener('unload', this.saveState);
       clearInterval(this.interval);
     }
   }, {
     key: "handleSuccess",
     value: function handleSuccess(data, city) {
-      var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__["parseData"])(data);
+      var newState = Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_6__["parseData"])(data);
       this.setState(_defineProperty({}, city, newState));
     }
   }, {
@@ -292,7 +294,7 @@ function (_Component) {
             removeFromDashboard: _this5.removeFromDashboard
           }));
         }
-      })));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Footer_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], null));
     }
   }]);
 
@@ -776,6 +778,45 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 
+
+/***/ }),
+
+/***/ "./frontend/components/Footer.jsx":
+/*!****************************************!*\
+  !*** ./frontend/components/Footer.jsx ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Footer; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+function Footer() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    id: "footer"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://github.com/AndreC93",
+    target: "_blank"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/assets/github.png",
+    alt: "Github"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://www.linkedin.com/in/andre-chow/",
+    target: "_blank"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/assets/linkedIn.png",
+    alt: "LinkedIn"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    href: "https://www.andrechow.com/",
+    target: "_blank"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/assets/ac_logo.png",
+    alt: "Visit my Site"
+  })));
+}
 
 /***/ }),
 

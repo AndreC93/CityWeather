@@ -3,6 +3,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import TopBar from './TopBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import CityShow from './CityShow.jsx';
+import Footer from './Footer.jsx';
 import { fetchWeather, parseData } from "../util/weather-util.js";
 
 class App extends Component {
@@ -34,7 +35,7 @@ class App extends Component {
   }
   
   componentDidMount() {
-    window.addEventListener('beforeunload', this.saveState);
+    window.addEventListener('unload', this.saveState);
     this.fetchWeatherForCities();
     this.interval = setInterval( () => this.fetchWeatherForCities(), 10000);
   }
@@ -75,7 +76,7 @@ class App extends Component {
   }
   
   componentWillUnmount() {
-    window.removeEventListener('beforeunload', this.saveState);
+    window.removeEventListener('unload', this.saveState);
     clearInterval(this.interval);
   }
   
@@ -106,6 +107,7 @@ class App extends Component {
               removeFromDashboard={this.removeFromDashboard} />} 
           />
         </Switch>
+        <Footer/>
       </div>
     );
   }
