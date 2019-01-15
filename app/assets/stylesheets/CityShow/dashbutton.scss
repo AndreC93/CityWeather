@@ -6,14 +6,17 @@
 
 .removeFromDash {
   &:hover {
-    background-color: rgb(235, 38, 38);
+    background-color: #e60012;
   }
 }
 
 .dashButton {
+  box-sizing: border-box;
   width: fit-content;
   margin: 5px auto 0;
   background-color: #89b3ff;
+  border: 1px solid black;
+  box-shadow: 0px 1px 1px white inset;
   padding: 8px 12px;
   border-radius: 8px;
   letter-spacing: 1px;
