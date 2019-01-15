@@ -114,7 +114,6 @@ class CityShow extends Component {
 
     return (
       <div className='cityShow' >
-        <Link to={'/'}>Back to Dashboard</Link>
         <div className='city'>
           <h2>
             <img className='weatherImg' src={imgSrc} />

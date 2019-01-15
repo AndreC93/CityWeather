@@ -125,7 +125,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
-/* harmony import */ var _SearchBar_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SearchBar.jsx */ "./frontend/components/SearchBar.jsx");
+/* harmony import */ var _TopBar_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TopBar.jsx */ "./frontend/components/TopBar.jsx");
 /* harmony import */ var _Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Dashboard.jsx */ "./frontend/components/Dashboard.jsx");
 /* harmony import */ var _CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./CityShow.jsx */ "./frontend/components/CityShow.jsx");
 /* harmony import */ var _util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/weather-util.js */ "./frontend/util/weather-util.js");
@@ -249,7 +249,7 @@ function (_Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "App"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchBar_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopBar_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         exact: true,
         path: "/",
         render: function render(props) {
@@ -491,9 +491,7 @@ function (_Component) {
       var dashButton = this.makeDashButton(cityName, weatherMain);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "cityShow"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/'
-      }, "Back to Dashboard"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "city"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "weatherImg",
@@ -570,7 +568,9 @@ function (_Component) {
       var _this = this;
 
       var cities = this.props.cities;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "dashContainer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "welcome"
       }, "Welcome to City Weather"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dashboard"
@@ -698,6 +698,82 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./frontend/components/HeaderBar.jsx":
+/*!*******************************************!*\
+  !*** ./frontend/components/HeaderBar.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HeaderBar; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var HeaderBar =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(HeaderBar, _Component);
+
+  function HeaderBar() {
+    _classCallCheck(this, HeaderBar);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(HeaderBar).apply(this, arguments));
+  }
+
+  _createClass(HeaderBar, [{
+    key: "render",
+    value: function render() {
+      var address = this.props.address;
+      var header;
+
+      if (address === '/') {
+        header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: function onClick() {
+            return window.location.reload();
+          }
+        }, "City Weather");
+      } else {
+        header = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: "/"
+        }, "Back to Dashboard");
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "headerBar"
+      }, header);
+    }
+  }]);
+
+  return HeaderBar;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
 /***/ "./frontend/components/SearchBar.jsx":
 /*!*******************************************!*\
   !*** ./frontend/components/SearchBar.jsx ***!
@@ -787,6 +863,76 @@ function (_Component) {
   }]);
 
   return SearchBar;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"])));
+
+/***/ }),
+
+/***/ "./frontend/components/TopBar.jsx":
+/*!****************************************!*\
+  !*** ./frontend/components/TopBar.jsx ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+/* harmony import */ var _HeaderBar_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HeaderBar.jsx */ "./frontend/components/HeaderBar.jsx");
+/* harmony import */ var _SearchBar_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchBar.jsx */ "./frontend/components/SearchBar.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(
+/*#__PURE__*/
+function (_Component) {
+  _inherits(TopBar, _Component);
+
+  function TopBar() {
+    _classCallCheck(this, TopBar);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(TopBar).apply(this, arguments));
+  }
+
+  _createClass(TopBar, [{
+    key: "render",
+    value: function render() {
+      var address = this.props.history.location.pathname;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "topBar"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "divider"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "searchContainer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderBar_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        address: address
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SearchBar_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "divider"
+      }));
+    }
+  }]);
+
+  return TopBar;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"])));
 
 /***/ }),

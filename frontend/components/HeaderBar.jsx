@@ -4,9 +4,15 @@ import { Link } from 'react-router-dom';
 export default class HeaderBar extends Component {
   render() {
     const { address } = this.props;
+    let header;
+    if (address === '/') {
+      header = (<div onClick={() => window.location.reload()}>City Weather</div>);
+    } else {
+      header = (<Link to={"/"}>Back to Dashboard</Link>);
+    }
     return (
-      <div>
-        {address === '/' ? (<div>City Weather</div>) : (<Link to={"/"}>Back to Dashboard</Link>)}
+      <div id='headerBar' >
+        {header}
       </div>
     );
   }

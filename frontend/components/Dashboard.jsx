@@ -7,7 +7,7 @@ export default class Dashboard extends Component {
     const {cities} = this.props;
     
     return (
-      <div>
+      <div id='dashContainer'>
         <h1 className='welcome' >Welcome to City Weather</h1>
         <div className='dashboard' >
           {cities.map( (city, idx) => {

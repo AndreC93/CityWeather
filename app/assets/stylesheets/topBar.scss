@@ -1,6 +1,4 @@
 #topBar {
-  position: fixed;
-  top: 0;
   display: flex;
   width: 100%;
   flex-wrap: nowrap;
@@ -10,15 +8,5 @@
     width: 10px;
     height: 10px;
     display: inline-block;
-  }
-  
-  #searchContainer {
-    position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
-    width: 100%;
-    border-bottom: 1px solid white;
-    padding: 15px 0;
   }
 }

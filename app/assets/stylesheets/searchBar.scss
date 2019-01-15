@@ -1,19 +1,26 @@
 #searchBar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 10px 15px;
+  min-width: 271.63px;
   
   input {
     background: white;
-    padding: 8px 2px;
+    padding: 10px 10px;
     border-radius: 7px;
   }
   
   button {
     background: #89b3ff;
-    padding: 8px 8px;
+    padding: 10px 12px;
     border-radius: 7px;
     margin-left: 8px;
   }
 }
+
+  #searchContainer {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid white;
+    padding: 15px 0;
+  }
