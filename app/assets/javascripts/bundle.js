@@ -480,7 +480,7 @@ function (_Component) {
     value: function makeDashButton(cityName, weatherMain) {
       var _this7 = this;
 
-      if (cityName === this.failedAddress || !weatherMain) return null;
+      if (cityName === this.failedAddress || !weatherMain || weatherMain === 'Unavailable' || weatherMain === 'Pending') return null;
 
       if (!this.props.cities.includes(cityName)) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

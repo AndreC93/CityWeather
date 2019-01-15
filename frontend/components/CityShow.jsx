@@ -98,7 +98,7 @@ class CityShow extends Component {
   }
 
   makeDashButton(cityName, weatherMain) {
-    if(cityName === this.failedAddress || !weatherMain) return null;
+    if(cityName === this.failedAddress || !weatherMain || weatherMain === 'Unavailable' || weatherMain === 'Pending') return null;
     if (!this.props.cities.includes(cityName)) {
       return (<div className='dashButton addToDash' onClick={() => this.props.addToDashboard(cityName)} >Add</div>);
     } else {
