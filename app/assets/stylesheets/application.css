@@ -16,7 +16,7 @@
 
 :root {
   --gradDeg: -0deg;
-  --shadow: -6px;
+  --shadow: 0px;
 }
 
 html {
