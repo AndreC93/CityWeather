@@ -13,6 +13,7 @@
   min-width: 200px;
   hyphens: auto;
   transition: all 0.2s ease-in;
+  transform: translateZ(0);
 
   &:hover {
     transform: scale(1.02, 1.02);

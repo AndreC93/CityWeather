@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import SearchBar from './SearchBar.jsx';
+import TopBar from './TopBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import CityShow from './CityShow.jsx';
 import { fetchWeather, parseData } from "../util/weather-util.js";
@@ -69,7 +69,7 @@ class App extends Component {
   render() {
     return (
       <div id='App' >
-        <SearchBar />
+        <TopBar/>
         <Switch>
           <Route 
             exact path='/' 
