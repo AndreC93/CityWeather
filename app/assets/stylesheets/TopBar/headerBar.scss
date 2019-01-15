@@ -1,13 +1,17 @@
 #headerBar {
-  padding: 10px 20px;
+  padding: 0 20px;
   border-radius: 7px;
-  background-image: url('sun.png');
+  background-image: url('../sun.png');
   background-position-y: 10%;
   background-size: contain;
   background-repeat: no-repeat;
+  line-height: 42px;
+  text-align: center;
   font-style: italic;
   font-weight: bold;
+  font-size: 25px;
   color: white;
   text-shadow: 0 0 2px black;
   cursor: pointer;
+  min-width: 144.05px;
 }

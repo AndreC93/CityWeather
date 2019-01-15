@@ -10,7 +10,7 @@ const cssSun = () => {
     }
     degrees += delta;
     document.documentElement.style.setProperty("--gradDeg", `${degrees}deg`);
-    document.documentElement.style.setProperty("--shadow", `${-degrees/10}px`);
+    document.documentElement.style.setProperty("--shadow", `${-degrees/15}px`);
   }
   
   return setInterval(() => changeBackground(), 200);

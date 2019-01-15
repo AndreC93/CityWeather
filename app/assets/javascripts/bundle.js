@@ -556,30 +556,69 @@ var Dashboard =
 function (_Component) {
   _inherits(Dashboard, _Component);
 
-  function Dashboard() {
+  function Dashboard(props) {
+    var _this;
+
     _classCallCheck(this, Dashboard);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Dashboard).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Dashboard).call(this, props));
+    _this.state = {
+      date: '',
+      time: ''
+    };
+    return _this;
   }
 
   _createClass(Dashboard, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.interval = setInterval(function () {
+        return _this2.generateDate();
+      }, 1000);
+    }
+  }, {
+    key: "generateDate",
+    value: function generateDate() {
+      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var day = days[new Date().getDay()];
+      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Oct', 'Nov', 'Dec'];
+      var month = months[new Date().getMonth()];
+      var date = new Date().getDate();
+      var year = new Date().getFullYear();
+      var time = new Date().toLocaleTimeString();
+      this.setState({
+        date: "".concat(day, ", ").concat(month, " ").concat(date, ", ").concat(year),
+        time: time
+      });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this3 = this;
 
       var cities = this.props.cities;
+      var _this$state = this.state,
+          date = _this$state.date,
+          time = _this$state.time;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "dashContainer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "welcome"
-      }, "Welcome to City Weather"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, time)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dashboard"
       }, cities.map(function (city, idx) {
-        if (_this.props.storedWeather[city]) {
+        if (_this3.props.storedWeather[city]) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DashboardItem_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
             name: city,
             key: idx,
-            storedWeather: _this.props.storedWeather[city]
+            storedWeather: _this3.props.storedWeather[city]
           });
         }
       })));
@@ -984,7 +1023,7 @@ var cssSun = function cssSun() {
 
     degrees += delta;
     document.documentElement.style.setProperty("--gradDeg", "".concat(degrees, "deg"));
-    document.documentElement.style.setProperty("--shadow", "".concat(-degrees / 10, "px"));
+    document.documentElement.style.setProperty("--shadow", "".concat(-degrees / 15, "px"));
   };
 
   return setInterval(function () {
