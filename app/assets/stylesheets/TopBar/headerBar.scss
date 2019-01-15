@@ -14,4 +14,18 @@
   text-shadow: 0 0 2px black;
   cursor: pointer;
   min-width: 144.05px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 550px) {
+  #headerBar a::before {
+    content: "Dashboard";
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  #headerBar a::before {
+    content: "Back to Dashboard";
+  }
 }

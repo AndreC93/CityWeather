@@ -8,7 +8,7 @@ export default class HeaderBar extends Component {
     if (address === '/') {
       header = (<div onClick={() => window.location.reload()}>City Weather</div>);
     } else {
-      header = (<Link to={"/"}>Back to Dashboard</Link>);
+      header = (<Link to={"/"}/>);
     }
     return (
       <div id='headerBar' >
