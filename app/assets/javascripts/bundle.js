@@ -795,25 +795,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 function Footer() {
+  var _window = window,
+      github = _window.github,
+      linkedIn = _window.linkedIn,
+      acLogo = _window.acLogo;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "footer"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://github.com/AndreC93",
     target: "_blank"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/github.png",
+    src: github,
     alt: "Github"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://www.linkedin.com/in/andre-chow/",
     target: "_blank"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/linkedIn.png",
+    src: linkedIn,
     alt: "LinkedIn"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     href: "https://www.andrechow.com/",
     target: "_blank"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/ac_logo.png",
+    src: acLogo,
     alt: "Visit my Site"
   })));
 }
