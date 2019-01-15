@@ -35,6 +35,7 @@ export default class Dashboard extends Component {
   render() {
     const {cities} = this.props;
     const {date, time} = this.state;
+    // if(!date) this.generateDate();
 
     return (
       <div id='dashContainer'>

@@ -169,23 +169,44 @@ function (_Component) {
     _classCallCheck(this, App);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(App).call(this, props));
-    _this.defaultCities = ['New York', 'Miami', 'San Francisco', 'Chicago', 'Seattle'];
-    _this.state = {};
+    _this.state = _this.initializeState();
     _this.interval = null;
+    _this.saveState = _this.saveState.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.addToDashboard = _this.addToDashboard.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.removeFromDashboard = _this.removeFromDashboard.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
   _createClass(App, [{
+    key: "initializeState",
+    value: function initializeState() {
+      var myAppState = JSON.parse(localStorage.getItem('CityWeather'));
+
+      if (myAppState) {
+        return myAppState;
+      }
+
+      return {
+        cities: ['New York', 'Miami', 'San Francisco', 'Chicago', 'Seattle']
+      };
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
+      window.addEventListener('beforeunload', this.saveState);
       this.fetchWeatherForCities();
       this.interval = setInterval(function () {
         return _this2.fetchWeatherForCities();
       }, 10000);
+    }
+  }, {
+    key: "saveState",
+    value: function saveState() {
+      localStorage.setItem('CityWeather', JSON.stringify({
+        cities: this.state.cities
+      }));
     }
   }, {
     key: "componentWillUpdate",
@@ -211,7 +232,7 @@ function (_Component) {
     value: function fetchWeatherForCities() {
       var _this4 = this;
 
-      this.defaultCities.forEach(function (city) {
+      this.state.cities.forEach(function (city) {
         Object(_util_weather_util_js__WEBPACK_IMPORTED_MODULE_5__["fetchWeather"])(city).then(function (data) {
           return _this4.handleSuccess(data, city);
         }).catch(function (err) {
@@ -222,18 +243,19 @@ function (_Component) {
   }, {
     key: "addToDashboard",
     value: function addToDashboard(city) {
-      this.defaultCities.push(city);
+      this.state.cities.push(city);
       this.props.history.push("/");
     }
   }, {
     key: "removeFromDashboard",
     value: function removeFromDashboard(city) {
-      this.defaultCities.splice(this.defaultCities.indexOf(city), 1);
+      this.state.cities.splice(this.state.cities.indexOf(city), 1);
       this.props.history.push("/");
     }
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
+      window.removeEventListener('beforeunload', this.saveState);
       clearInterval(this.interval);
     }
   }, {
@@ -254,7 +276,7 @@ function (_Component) {
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Dashboard_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], _extends({}, props, {
-            cities: _this5.defaultCities,
+            cities: _this5.state.cities,
             storedWeather: _this5.state,
             addToDashboard: _this5.addToDashboard,
             removeFromDashboard: _this5.removeFromDashboard
@@ -264,7 +286,7 @@ function (_Component) {
         path: "/",
         render: function render(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CityShow_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
-            cities: _this5.defaultCities,
+            cities: _this5.state.cities,
             storedWeather: _this5.state,
             addToDashboard: _this5.addToDashboard,
             removeFromDashboard: _this5.removeFromDashboard
@@ -606,7 +628,8 @@ function (_Component) {
       var cities = this.props.cities;
       var _this$state = this.state,
           date = _this$state.date,
-          time = _this$state.time;
+          time = _this$state.time; // if(!date) this.generateDate();
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "dashContainer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
